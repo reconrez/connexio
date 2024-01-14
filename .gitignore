@@ -1,47 +1,47 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
 # compiled output
-frontend/dist
-frontend/tmp
-frontend/out-tsc
+view/dist
+view/tmp
+view/out-tsc
 # Only exists if Bazel was run
-frontend/bazel-out
+view/bazel-out
 
 # dependencies
-frontend/node_modules
-backend/node_modules
+view/node_modules
+./node_modules
 
 # profiling files
-frontend/chrome-profiler-events.json
-frontend/speed-measure-plugin.json
+view/chrome-profiler-events.json
+view/speed-measure-plugin.json
 
 # IDEs and editors
-frontend/.idea
-frontend/.project
-frontend/.classpath
-frontend/.c9/
-frontend/*.launch
-frontend/.settings/
-frontend/*.sublime-workspace
+view/.idea
+view/.project
+view/.classpath
+view/.c9/
+view/*.launch
+view/.settings/
+view/*.sublime-workspace
 
 # IDE - VSCode
-frontend/.vscode/*
-frontend/!.vscode/settings.json
-frontend/!.vscode/tasks.json
-frontend/!.vscode/launch.json
-frontend/!.vscode/extensions.json
-frontend/.history/*
+view/.vscode/*
+view/!.vscode/settings.json
+view/!.vscode/tasks.json
+view/!.vscode/launch.json
+view/!.vscode/extensions.json
+view/.history/*
 
 # misc
-frontend/.sass-cache
-frontend/connect.lock
-frontend/coverage
-frontend/libpeerconnection.log
-frontend/npm-debug.log
-frontend/yarn-error.log
-frontend/testem.log
-frontend/typings
+view/.sass-cache
+view/connect.lock
+view/coverage
+view/libpeerconnection.log
+view/npm-debug.log
+view/yarn-error.log
+view/testem.log
+view/typings
 
 # System Files
-frontend/.DS_Store
-frontend/Thumbs.db
+view/.DS_Store
+view/Thumbs.db
