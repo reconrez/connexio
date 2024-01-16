@@ -9,7 +9,7 @@ view/bazel-out
 
 # dependencies
 view/node_modules
-./node_modules
+node_modules
 
 # profiling files
 view/chrome-profiler-events.json
