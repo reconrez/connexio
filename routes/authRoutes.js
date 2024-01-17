@@ -2,7 +2,8 @@ const app = require('express');
 const authService = require('../middleware/authMiddleware');
 
 const router = app.Router();
-
+const { register, login } = require("../controllers/authController");
+const authenticateToken = require("../middleware/authMiddleware");
 signupGet = (req, res) => {
     res.render('SignupGet');
 }
@@ -16,6 +17,13 @@ const loginPost = (req, res) => {
     res.render('LoginPost');
 }
 
+router.post("/register", register);
+router.post("/login", login);
+router.get("/profile", authenticateToken, (req, res) => {
+  // Access the authenticated user's information
+  console.log("Get Profile =============");
+  res.json(req.user);
+});
 
 // router.get('/hello', authService.hello);
 // router.get('/signup', authService.signupGet);

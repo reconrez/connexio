@@ -5,15 +5,22 @@ const jwt = require("jsonwebtoken");
 
 const register = async (req, res) => {
   try {
+    console.log("Line8");
     console.log(req.body);
-    const { username, password, email, role } = req.body;
-
+    console.log("Line 9");
+    if(req.body){
+      const { username, password, email, role } = req.body;
+      console.log(`Username: ${username}, Password: ${password}, Email: ${email}, Role: ${role}`);
+    }else{
+      return  res.status(404).send("Username, password, and email not found.");
+    }
     if (!username || !password || !email) {
+      console.log(`res ${res}`);
       return res
         .status(400)
         .send("Username, password, and email are required.");
     }
-
+    console.log("Line 18");
     const existingUser = await User.findOne({ username });
     if (existingUser) {
       return res.status(400).send("Username already exists.");
@@ -27,7 +34,7 @@ const register = async (req, res) => {
       email,
       role: role || "user",
     });
-
+    console.log("Line 32");
     await user.save();
     res.status(201).send("User registered successfully.");
   } catch (error) {
