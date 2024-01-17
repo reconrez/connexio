@@ -5,27 +5,28 @@ const jwt = require("jsonwebtoken");
 
 const register = async (req, res) => {
   try {
-    console.log("Line8");
-    console.log(req.body);
-    console.log("Line 9");
+    
     if(req.body){
-      const { username, password, email, role } = req.body;
-      console.log(`Username: ${username}, Password: ${password}, Email: ${email}, Role: ${role}`);
+      console.log(req.body);
     }else{
       return  res.status(404).send("Username, password, and email not found.");
     }
+
+    const { username, password, email, role } = req.body;
+    console.log(`Username: ${username}, Password: ${password}, Email: ${email}, Role: ${role}`);
+    
     if (!username || !password || !email) {
       console.log(`res ${res}`);
       return res
         .status(400)
         .send("Username, password, and email are required.");
     }
-    console.log("Line 18");
+    
     const existingUser = await User.findOne({ username });
     if (existingUser) {
       return res.status(400).send("Username already exists.");
     }
-
+    
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = new User({
@@ -34,9 +35,10 @@ const register = async (req, res) => {
       email,
       role: role || "user",
     });
-    console.log("Line 32");
+    
     await user.save();
     res.status(201).send("User registered successfully.");
+  
   } catch (error) {
     console.error(error);
     res.status(500).send("Error registering user.");
@@ -66,7 +68,7 @@ const login = async (req, res) => {
     }
 
     const tokenPayload = { _id: user._id, username: user.username };
-
+    console.log("Token payload:", tokenPayload);
     if (user.email) {
       tokenPayload.email = user.email;
     } else {

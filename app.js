@@ -3,25 +3,25 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var createError = require('http-errors');
-const bodyParser = require('body-parser'); 
-const authRoutes = require('./routes/authRoutes');
-const userRoutes = require("./routes/userRoutes");
 const mongoose = require('mongoose');
 const helmet = require('helmet');
+const bodyParser = require('body-parser');
+require("dotenv").config();
+
+const authRoutes = require('./routes/authRoutes');
+const userRoutes = require("./routes/userRoutes");
 
 var app = express();
-app.use('/users', userRoutes);
-app.use('/auth', authRoutes);
+const mongoURI = process.env.MONGO_URI;
 
 // var uri = 'mongodb://localhost:27017/connexio';
-var uri = 'mongodb+srv://reconrez:ConnexioAtlas04@mark04.yriulzz.mongodb.net/';
+// var uri = 'mongodb+srv://reconrez:ConnexioAtlas04@mark04.yriulzz.mongodb.net/';
 // connect to MongoDB
-mongoose.connect(uri).then(() =>
+mongoose.connect(mongoURI).then(() =>
     console.log('Connected to MongoDB'))
   .catch(err =>
     console.error('Error connecting to MongoDB:', err
     ));
-
 app.use(helmet());
 app.use(logger('dev'));
 app.use(express.json());
