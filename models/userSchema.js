@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
-const UserSchema = new mongoose.Schema({
+const UserSchema = new mongoose.Schema(
+  {
   username: {
     type: String,
     required: true,
@@ -46,6 +47,11 @@ const UserSchema = new mongoose.Schema({
   gender: {
     type: String,
     enum: ["male", "female"],
+  },
+  visibility: {
+    type: String,
+    enum: ["public", "private"],
+    default: "private",
   },
   jwtToken: {
     type: String,
