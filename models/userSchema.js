@@ -52,9 +52,6 @@ const UserSchema = new mongoose.Schema(
     type: String,
     enum: ["public", "private"],
     default: "private",
-  },
-  jwtToken: {
-    type: String,
   }
 }, 
 {

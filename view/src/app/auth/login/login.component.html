@@ -2,7 +2,7 @@
 
   <div class="card mx-auto my-auto w-25 px-3 py-5 login_container">
     <h4>Login to your Account</h4>
-    <form [formGroup]="loginForm" (ngSubmit)="validationCheck()" class="container">
+    <form [formGroup]="loginForm" (ngSubmit)="userLogin()" class="container">
       <div class="form-group">
         <label for="username">Username:</label>
         <input type="text" formControlName="username" class="form-control" id="username" name="username" required>

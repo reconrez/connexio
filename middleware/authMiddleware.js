@@ -21,31 +21,3 @@ function authenticateToken(req, res, next) {
 }
 
 module.exports = authenticateToken;
-
-
-// app.get('/', (req, res) => {
-//     hello()
-// });
-
-// app.get('/users', (req, res) => {
-   
-//     console.log("Hello")
-//         users.find({}, (err, users) => {
-//             if (err) throw err;
-//             console.log(users);
-//             res.send(users);
-//         });
-   
-//         res.status(500).send(err);
-
-// });
-
-// module.exports = [
-    // signupGet,
-    // loginGet,
-    // signupPost,
-    // loginPost,
-    // hello
-// ]
-
-// module.exports = app;
