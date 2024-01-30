@@ -3,6 +3,7 @@ const User = require("../models/userSchema");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const Blacklist = require('../models/Blacklist');
+const { v4: uuidv4 } = require('uuid');
 
 const register = async (req, res) => {
   try {
@@ -15,6 +16,7 @@ const register = async (req, res) => {
       });
     }
 
+    const user_id = uuidv4();
     const {
       username,
       password,
@@ -44,6 +46,7 @@ const register = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = new User({
+      user_id,
       username,
       password: hashedPassword,
       email,

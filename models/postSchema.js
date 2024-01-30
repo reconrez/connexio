@@ -9,6 +9,7 @@ const PostSchema = new mongoose.Schema({
     user_id: {
       type: Number,
       required: true,
+      unique: true,
     },
     content: {
       type: String,
@@ -35,26 +36,10 @@ const PostSchema = new mongoose.Schema({
       {
         type: {
           type: String,
-          enum: ['like', 'dislike', 'love', 'other'],
+          enum: ['like', 'dislike', 'love'],
         },
         user_id: {
           type: Number,
-        },
-      },
-    ],
-    comments: [
-      {
-        comment_id: {
-          type: Number,
-        },
-        user_id: {
-          type: Number,
-        },
-        content: {
-          type: String,
-        },
-        created_at: {
-          type: Date,
         },
       },
     ],

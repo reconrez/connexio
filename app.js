@@ -8,6 +8,7 @@ const mongoose = require('mongoose');
 const helmet = require('helmet');
 const bodyParser = require('body-parser');
 require("dotenv").config();
+const { v4: uuidv4 } = require('uuid');
 
 const postRoutes = require('./routes/postRoutes');
 const authRoutes = require('./routes/authRoutes');
@@ -54,5 +55,9 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+
+console.log("=================================");
+console.log(uuidv4());
 
 module.exports = app;

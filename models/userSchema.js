@@ -1,7 +1,11 @@
 const mongoose = require("mongoose");
 
-const UserSchema = new mongoose.Schema(
-  {
+const UserSchema = new mongoose.Schema({
+  user_id: {
+    type: Number,
+    required: true,
+    unique: true,
+  },
   username: {
     type: String,
     required: true,
@@ -53,8 +57,7 @@ const UserSchema = new mongoose.Schema(
     enum: ["public", "private"],
     default: "private",
   }
-}, 
-{
+}, {
   timestamps: true
 });
 
