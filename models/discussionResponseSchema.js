@@ -1,7 +1,6 @@
-// models/discussion.js
 const mongoose = require('mongoose');
 
-const DiscussionSchema = new mongoose.Schema({
+const DiscussionResponseSchema = new mongoose.Schema({
   discussion_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Discussion',
@@ -12,14 +11,22 @@ const DiscussionSchema = new mongoose.Schema({
     ref: 'User',
     required: true
   },
-  topic: {
-    type: String,
-    required: true
-  },
   content: {
     type: String,
     required: true
   },
+  likes: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
+    }
+  ],
+  dislikes: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
+    }
+  ],
   created_at: {
     type: Date,
     default: Date.now
@@ -28,15 +35,6 @@ const DiscussionSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   },
-  open: {
-    type: Boolean,
-    default: true
-  },
-  closed_at: Date,
-  response_count: {
-    type: Number,
-    default: 0
-  },
 });
 
-module.exports = mongoose.model('Discussion', DiscussionSchema);
+module.exports = mongoose.model('DiscussionResponse', DiscussionResponseSchema);

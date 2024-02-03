@@ -7,6 +7,7 @@
     "start": "ng serve",
     "l": "export NODE_OPTIONS=--openssl-legacy-provider && ng serve",
     "w": "set NODE_OPTIONS=--openssl-legacy-provider && ng serve",
+    "buildw": "set NODE_OPTIONS=--openssl-legacy-provider && ng build",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",

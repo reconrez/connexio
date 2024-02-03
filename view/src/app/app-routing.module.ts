@@ -7,6 +7,7 @@ import { AdminLayoutComponent } from "./layouts/admin-layout/admin-layout.compon
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
 import { LoginComponent } from "./auth/login/login.component";
 import { RegisterComponent } from "./auth/register/register.component";
+import { TessComponent } from "./tess/tess.component";
 
 const routes: Routes = [
   {
@@ -44,7 +45,11 @@ const routes: Routes = [
   {
     path: "**",
     redirectTo: "home"
-  }
+  },
+  {
+    path: "tess",
+    component: TessComponent,
+  },
 ];
 
 @NgModule({

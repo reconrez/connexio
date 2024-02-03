@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const CommentsSchema = new mongoose.Schema({
+const PostCommentsSchema = new mongoose.Schema({
 
     post_id: {
         type: Number,
@@ -20,7 +20,17 @@ const CommentsSchema = new mongoose.Schema({
     content: {
         type: String,
     },
+    likes: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }],
+    dislikes: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }],
     created_at: {
         type: Date,
     },
 })
+
+module.exports = mongoose.model('PostComments', PostCommentsSchema);

@@ -58,6 +58,16 @@ export class AuthService {
       });
   }
 
+  testDiscussions(){
+    console.log("testDiscussions")
+    console.log(`${this.baseUrl}/testing/createDiscussion`)
+    console.log("Ye wala")
+    return this.http.get<any>(`${this.baseUrl}/testing/createDiscussion`, {})
+    .subscribe((res: any) => {
+      console.log(`Login Service Console Response ${res}`);
+    });
+  }
+
   register(user: any) {
     return this.http.post(`${this.baseUrl}/users/register`, user);
   }

@@ -36,7 +36,7 @@ const PostSchema = new mongoose.Schema({
       {
         type: {
           type: String,
-          enum: ['like', 'dislike', 'love'],
+          enum: ['like', 'dislike'],
         },
         user_id: {
           type: Number,

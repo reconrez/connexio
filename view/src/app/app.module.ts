@@ -22,6 +22,7 @@ import { MessagesComponent } from './pages/messages/messages.component';
 import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
+import { TessComponent } from './tess/tess.component';
 
 @NgModule({
   imports: [
@@ -38,7 +39,7 @@ import { RegisterComponent } from './auth/register/register.component';
   declarations: [
     AppComponent,
     AdminLayoutComponent,
-    AuthLayoutComponent, LoginComponent, RegisterComponent],
+    AuthLayoutComponent, LoginComponent, RegisterComponent, TessComponent],
   providers: [],
   bootstrap: [AppComponent]
 })
