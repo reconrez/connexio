@@ -27,7 +27,7 @@ export class AuthService {
   login(username: string, password: string) {
     return this.http.post<any>(`${this.baseUrl}/auth/login`, { username, password })
       .subscribe((res: any) => {
-        console.log(`Login Service Console Response ${res}`);
+        console.log(`Login Service Console Response ${JSON.stringify(res)}`);
         localStorage.setItem('access_token', res.token);
         this.router.navigate(['home/' + res]);
       });
