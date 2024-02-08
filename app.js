@@ -46,9 +46,9 @@ app.use("/discussions", discussionRoutes);
 app.use("/testing", testRoutes);
 
 // catch 404 and forward to error handler
-app.use(function (req, res, next) {
-  next(createError(404));
-  
+app.all(/.*/, (req, res) => {
+  res.statusCode = 404;
+  res.send("Page not Found");
 });
 
 // error handler
@@ -61,8 +61,5 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
-console.log("=================================");
-console.log(uuidv4());
 
 module.exports = app;
