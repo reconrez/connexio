@@ -1,157 +1,164 @@
 // controllers/auth.js
+const Token = require("../models/tokenSchema");
 const User = require("../models/userSchema");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const Blacklist = require('../models/Blacklist');
 const { v4: uuidv4 } = require('uuid');
 
-const register = async (req, res) => {
+const getAccessToken = (payload) => {
+  return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
+    expiresIn: process.env.ACCESS_TOKEN_EXP_TIME,
+  });
+}
+
+const getRefreshToken = (payload) => {
+  return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, {
+    expiresIn: process.env.REFRESH_TOKEN_EXP_TIME,
+  });
+}
+
+const verifyRefreshToken = async (refresh_token) => {
   try {
-
-    if (req.body) {
-      console.log(req.body);
-    } else {
-      return res.status(404).json({
-        message: "Username, password, and email not found."
-      });
+    const payload = jwt.decode(refresh_token, process.env.REFRESH_TOKEN_SECRET);
+    if (!payload) {
+      return { status: false, result: "Invalid Token" };
     }
 
-    const user_id = uuidv4();
-    const {
-      username,
-      password,
-      email,
-      role
-    } = req.body;
-    console.log(`Username: ${username}, Password: ${password}, Email: ${email}, Role: ${role}`);
-
-    if (!username || !password || !email) {
-      console.log(`res ${res}`);
-      return res
-        .status(400)
-        .json({
-          message: "Username, password, and email are required."
-        })
+    const response = await Token.findOne({ user_id: payload.user_id });
+    if (!response) {
+      return { status: false, result: "Invalid Token" };
     }
 
-    const existingUser = await User.findOne({
-      username
+    return jwt.verify(refresh_token, process.env.REFRESH_TOKEN_SECRET, async (err) => {
+      if (err) {
+        return {
+          status: false,
+          result: "Refresh Token got expired, Login again to get new pair of token",
+        };
+      } else {
+        return { status: true, result: "Access Granted" };
+      }
     });
-    if (existingUser) {
-      return res.status(400).json({
-        message: "Username already exists."
-      });
-    }
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    const user = new User({
-      user_id,
-      username,
-      password: hashedPassword,
-      email,
-      role: role || "user",
-    });
-
-    await user.save();
-    res.status(201).json({
-      message: "User registered successfully."
-    });
-
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      message: "Error registering user."
-    });
-  }
-};
-
-
-const login = async (req, res) => {
-  try {
-    console.log(req.body);
-    const user = await User.findOne({
-      username: req.body.username
-    });
-    console.log("Retrieved user:", user);
-
-    if (!user) {
-      console.log("User not found");
-      return res.status(400).json({
-        message: "Invalid username or password."
-      });
-    }
-
-    const validPassword = await bcrypt.compare(
-      req.body.password,
-      user.password
-    );
-    console.log("Password validation:", validPassword);
-
-    if (!validPassword) {
-      console.log("Invalid password");
-      return res.status(400).json({
-        message: "Invalid username or password."
-      });
-    }
-
-    const tokenPayload = {
-      _id: user._id,
-      username: user.username
-    };
-    console.log("Token payload:", tokenPayload);
-    if (user.email) {
-      tokenPayload.email = user.email;
-    } else {
-      console.log("User email not available");
-      return res.status(500).json({
-        message: "User email not available."
-      });
-    }
-
-    const token = jwt.sign(tokenPayload, process.env.JWT_SECRET);
-    res.header("Authorization", token).json({
-      message: "Login successful.",
-      data:[
-        {
-          token,
-          user
-        }
-      ]
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      message: "Error logging in user."
-    });
-  }
-};
-
-const logout = async(req, res) => {
-  try {
-    const authHeader = req.headers['cookie']; // get the session cookie from request header
-    if (!authHeader) return res.sendStatus(204); // No content
-    const cookie = authHeader.split('=')[1]; // If there is, split the cookie string to get the actual jwt token
-    const accessToken = cookie.split(';')[0];
-    const checkIfBlacklisted = await Blacklist.findOne({ token: accessToken }); // Check if that token is blacklisted
-    // if true, send a no content response.
-    if (checkIfBlacklisted) return res.sendStatus(204);
-    // otherwise blacklist token
-    const newBlacklist = new Blacklist({
-      token: accessToken,
-    });
-    await newBlacklist.save();
-    // Also clear request cookie on client
-    res.setHeader('Clear-Site-Data', '"cookies"');
-    res.status(200).json({ message: 'You are logged out!' });
   } catch (err) {
-    res.status(500).json({
-      status: 'error',
-      message: 'Internal Server Error',
-    });
+    return { status: false, result: err.message };
   }
-  res.end();
+}
+
+const verifyAccessToken = async (access_token) => {
+  try {
+    return jwt.verify(access_token, process.env.ACCESS_TOKEN_SECRET, (err) => {
+      if (err && err.message == "invalid signature") {
+        return { status: false, result: "Invalid Access Token" };
+      } else {
+        const payload = jwt.decode(access_token, process.env.ACCESS_TOKEN_SECRET);
+        return { status: true, result: { access_token: access_token, email: payload.email } };
+      }
+    });
+  } catch (err) {
+    return { status: false, result: err.message };
+  }
+}
+
+const getNewAccessToken = async ({ refresh_token }) => {
+  try {
+    const response = await verifyRefreshToken(refresh_token);
+
+    if (!response.status) return response;
+
+    const payload = jwt.decode(refresh_token, process.env.REFRESH_TOKEN_SECRET);
+    const new_access_token = getAccessToken({ user_id: payload.user_id, email: payload.email });
+
+    return { status: true, result: { access_token: new_access_token } };
+  } catch (err) {
+    return err;
+  }
+}
+
+const register = async ({ username, email, password, repassword }) => {
+  const emailRegExp = /\S+@\S+\.\S+/;
+
+  if (!username) {
+    return { status: false, result: "Username is required" };
+  }
+
+  if (!emailRegExp.test(email)) {
+    return { status: false, result: "Invalid Email" };
+  }
+
+  if (!password) {
+    return { status: false, result: "Password is required" };
+  }
+
+  if (password !== repassword) {
+    return { status: false, result: "Password mismatch" };
+  }
+
+  const hash = await bcrypt.hash(password, 10);
+  const uuid = uuidv4();
+
+  try {
+    let user = new User({
+      user_id: uuid,
+      username: username,
+      email: email,
+      password: hash,
+      role: 'user',
+    });
+
+    let savedUser = await user.save();
+
+    return { status: true, result: savedUser };
+  } catch (err) {
+    return { status: false, result: "Username or Email already taken" };
+  }
 }
 
 
-module.exports = { register, login, logout };
+const login = async ({ username, password }) => {
+  try {
+    const user = await User.findOne({ username });
+
+    if (!user) {
+      return { status: false, result: "Invalid Username" };
+    }
+
+    const user_id = user.user_id;
+    const email = user.email;
+    const validPassword = await bcrypt.compare(password, user.password);
+
+    if (!validPassword) {
+      return { status: false, result: "Invalid Password" };
+    }
+
+    const payload = { user_id, email };
+    const access_token = getAccessToken(payload);
+    const refresh_token = getRefreshToken(payload);
+    const token = new Token({
+      refresh_token,
+      user_id
+    });
+
+    await token.save();
+
+    return { status: true, result: { user_id, username, access_token, refresh_token } };
+  } catch (err) {
+    return { status: false, result: err.message };
+  }
+}
+
+const logout = async ({ user_id }) => {
+  try {    
+    const token = await Token.findOneAndDelete({ user_id });
+
+    if (token === null) {
+      return { status: false, result: "Invalid User ID" };
+    } else {
+      return { status: true, result: "Logout Successful" };
+    }
+  } catch (err) {
+    return { status: false, result: err.message };
+  }
+}
+
+
+module.exports = { register, login, logout, getNewAccessToken };

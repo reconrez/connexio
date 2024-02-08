@@ -1,20 +1,49 @@
-const app = require('express');
-const authService = require('../middleware/authMiddleware');
+const AuthController = require("../controllers/authController");
+const { Router } = require('express');
+const router = Router();
 
-const router = app.Router();
-const { register, login, logout } = require("../controllers/authController");
-const authenticateToken = require("../middleware/authMiddleware");
+router.post("/register", async (req, res) => {
+  const { username, email, password, repassword } = req.body;
+  const response = await AuthController.register({ username, email, password, repassword });
 
-router.post("/register", register);
-router.post("/login", login);
-router.post("/logout", logout);
-router.get("/dashboard", authenticateToken, (req, res) => {
-  // Access the authenticated user's information
-  console.log("Get Profile =============");
-  res.json(req.user);
+  if (response.status) {
+    return res.status(200).json(response.result);
+  } else {
+    return res.status(401).json(response.result);
+  }
 });
 
-module.exports.hello = ()=>{
-    console.log("Hello")
-};
+router.post("/login", async (req, res) => {
+  const { username, password } = req.body;
+  const response = await AuthController.login({ username, password });
+
+  if (response.status) {
+    return res.status(200).json(response.result);
+  } else {
+    return res.status(401).json(response.result);
+  }
+});
+
+router.post("/logout", async (req, res) => {
+  const { user_id } = req.body;
+  const response = await AuthController.logout({ user_id });
+
+  if (response.status) {
+    return res.status(200).json(response.result);
+  } else {
+    return res.status(401).json(response.result);
+  }
+});
+
+router.post("/token", async (req, res) => {
+  const { refresh_token } = req.body;
+  const response = await AuthController.getNewAccessToken({ refresh_token });
+
+  if (response.status) {
+    return res.status(200).json(response.result);
+  } else {
+    return res.status(403).json(response.result);
+  }
+});
+
 module.exports = router;
