@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
   })
 
   userLogin = ()=>{
-    console.log(`Login Values ${this.loginForm.value}`);
+    console.log(`Login Values ${JSON.stringify(this.loginForm.value)}`);
     this.authService.login(this.loginForm.value.username, this.loginForm.value.password)
     if(this.loginForm.value.username){
       console.log("redirecting to dashboard")

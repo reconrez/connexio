@@ -25,10 +25,13 @@ export class AuthService {
   }
 
   login(username: string, password: string) {
+    console.log("Login Console Request", username, password);
     return this.http.post<any>(`${this.baseUrl}/auth/login`, { username, password })
       .subscribe((res: any) => {
         console.log(`Login Service Console Response ${JSON.stringify(res)}`);
-        localStorage.setItem('access_token', res.token);
+        console.log(typeof res);
+        console.log(res);
+        localStorage.setItem('access_token', JSON.stringify(res.access_token));
         this.router.navigate(['home/' + res]);
       });
   }
@@ -37,7 +40,7 @@ export class AuthService {
     return this.http.post<any>(`${this.baseUrl}/auth/logout`,{})
       .subscribe((res: any) => {
         // Clear local authentication state
-        localStorage.removeItem('token');
+        localStorage.removeItem('access_token');
         localStorage.removeItem('currentUser');
 
         // Update authentication state observable
@@ -56,6 +59,12 @@ export class AuthService {
         // Redirect to login page
         this.router.navigate(['/login']);
       });
+  }
+
+  handleMissingToken() {
+
+    this.logout(); // Clear any potential tokens or user data
+    this.router.navigate(['/login']); // Redirect to login page
   }
 
   testDiscussions(){

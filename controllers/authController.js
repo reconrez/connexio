@@ -113,15 +113,14 @@ const register = async ({ username, email, password, repassword }) => {
   }
 }
 
-
 const login = async ({ username, password }) => {
+  console.log(username, password);
   try {
     const user = await User.findOne({ username });
 
     if (!user) {
       return { status: false, result: "Invalid Username" };
     }
-
     const user_id = user.user_id;
     const email = user.email;
     const validPassword = await bcrypt.compare(password, user.password);
@@ -159,6 +158,5 @@ const logout = async ({ user_id }) => {
     return { status: false, result: err.message };
   }
 }
-
 
 module.exports = { register, login, logout, getNewAccessToken };
