@@ -13,6 +13,7 @@ export class PostsComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(this.postData)
+    console.log(this.postData.reactions)
   }
 
 }
