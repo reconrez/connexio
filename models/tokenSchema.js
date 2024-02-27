@@ -9,7 +9,6 @@ const TokenSchema = new mongoose.Schema(
     user_id: {
       type: mongoose.Schema.Types.UUID,
       ref: "User",
-      required: true,
     },
   },
   { timestamps: true }

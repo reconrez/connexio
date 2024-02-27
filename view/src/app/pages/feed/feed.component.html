@@ -1,2 +1,4 @@
       <app-create-posts></app-create-posts>
-      <app-posts></app-posts>
+<div *ngFor="let post of postData">
+  <app-posts [postData]="post"></app-posts>
+</div>

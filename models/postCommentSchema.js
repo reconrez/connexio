@@ -3,17 +3,17 @@ const mongoose = require("mongoose");
 const PostCommentsSchema = new mongoose.Schema({
 
     post_id: {
-        type: Number,
+        type: String,
         required: true,
         unique: true,
     },
     comment_id: {
-        type: Number,
+        type: String,
         required: true,
         unique: true,
     },
     user_id: {
-        type: Number,
+        type: String,
         required: true,
         unique: true,
     },

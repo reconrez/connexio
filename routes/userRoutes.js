@@ -1,4 +1,5 @@
 var express = require('express');
+const { findUserById } = require('../controllers/userController');
 var router = express.Router();
 
 
@@ -29,5 +30,7 @@ router.get("/users", async (req, res) => {
       res.status(500).send("Server Error");
     }
   });
+
+router.post("/user", findUserById)
 
 module.exports = router;

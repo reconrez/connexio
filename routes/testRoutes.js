@@ -3,5 +3,6 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/createDiscussion', createDiscussionTest )
+router.get('/testconsole', testConsole )
 
 module.exports = router;

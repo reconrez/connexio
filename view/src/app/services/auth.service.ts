@@ -9,6 +9,12 @@ import { Router } from '@angular/router';
 export class AuthService {
 
   baseUrl: string = "http://localhost:3000";
+  userId: string = ""
+
+  getUserId(){
+    this.userId = JSON.parse(localStorage.getItem('current_user'))
+    return this.userId
+  }
 
   private currentUserSubject: BehaviorSubject<any>;
   public currentUser: Observable<any>;
@@ -32,16 +38,18 @@ export class AuthService {
         console.log(typeof res);
         console.log(res);
         localStorage.setItem('access_token', JSON.stringify(res.access_token));
+        localStorage.setItem('current_user', JSON.stringify(res.user_id));
         this.router.navigate(['home/' + res]);
       });
   }
 
   logout() {
-    return this.http.post<any>(`${this.baseUrl}/auth/logout`,{})
+    var access_token = localStorage.getItem('access_token')
+    return this.http.post<any>(`${this.baseUrl}/auth/logout`,{ access_token })
       .subscribe((res: any) => {
         // Clear local authentication state
         localStorage.removeItem('access_token');
-        localStorage.removeItem('currentUser');
+        localStorage.removeItem('current_user');
 
         // Update authentication state observable
         this.isAuthenticatedSubject.next(false);
@@ -62,8 +70,9 @@ export class AuthService {
   }
 
   handleMissingToken() {
-
-    this.logout(); // Clear any potential tokens or user data
+    // Clear any potential tokens or user data
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('currentUser');
     this.router.navigate(['/login']); // Redirect to login page
   }
 

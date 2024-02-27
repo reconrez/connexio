@@ -145,9 +145,10 @@ const login = async ({ username, password }) => {
   }
 }
 
-const logout = async ({ user_id }) => {
+const logout = async ({ access_token }) => {
+  console.log(access_token)
   try {    
-    const token = await Token.findOneAndDelete({ user_id });
+    const token = await Token.findOneAndDelete({ access_token });
 
     if (token === null) {
       return { status: false, result: "Invalid User ID" };

@@ -1,16 +1,21 @@
 const Post = require("../models/postSchema");
+var { v4: uuidv4 } = require('uuid');
 
 const createPost = async (req, res) => {
-    try {
-      const newPost = new Post(req.body);
-      const savedPost = await newPost.save();
-      res.status(201).json(savedPost);
-    } catch (err) {
-      res.status(400).json({
-        error: err.message
-      });
-    }
+  try {
+    const newPost = new Post({
+      post_id: uuidv4(),
+      ...req.body
+    });
+    console.log(`newPost: ${newPost}`);
+    const savedPost = await newPost.save();
+    res.status(201).json(savedPost);
+  } catch (err) {
+    res.status(400).json({
+      error: err.message
+    });
   }
+}
   
   const getAllPosts = async (req, res) => {
     try {

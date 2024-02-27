@@ -2,14 +2,14 @@ const mongoose = require("mongoose");
 
 const PostSchema = new mongoose.Schema({
     post_id: {
-      type: Number,
+      type: String,
       required: true,
       unique: true,
     },
     user_id: {
-      type: Number,
+      type: String,
       required: true,
-      unique: true,
+      unique: false,
     },
     content: {
       type: String,
@@ -39,7 +39,7 @@ const PostSchema = new mongoose.Schema({
           enum: ['like', 'dislike'],
         },
         user_id: {
-          type: Number,
+          type: String,
         },
       },
     ],

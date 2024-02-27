@@ -1,22 +1,22 @@
 const express = require('express');
 const router = express.Router();
 const Post = require('../models/postSchema'); // Adjust the path if needed
-const { createPost, getAllPosts, getPostById, updatePost, deletePost } = require('../controllers/postController');
+const { createPost, getAllPosts, getPostById, updatePost, deletePost, createMultiPost } = require('../controllers/postController');
 
 
 // Create a new post
-router.post('/', createPost);
+router.post('/post', createPost);
 
 // Get all posts  
-router.get('/', getAllPosts);
+router.get('/posts', getAllPosts);
 
 // Get a single post by ID
-router.get('/:id', getPostById);
+router.get('/post/:id', getPostById);
 
 // Update a post
-router.put('/:id', updatePost);
+router.put('/post/:id', updatePost);
 
 // Delete a post
-router.delete('/:id', deletePost);
+router.delete('/post/:id', deletePost);
 
 module.exports = router;

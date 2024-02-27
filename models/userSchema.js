@@ -25,14 +25,14 @@ const UserSchema = new mongoose.Schema({
     require: true,
     min: 6,
   },
-  description: {
+  bio: {
     type: String,
     max: 50,
     default: "",
   },
   profilePicture: {
     type: String,
-    default: "YOUR_DEFAULT_AVATAR_URL",
+    default: "assets/img/default-avatar.png",
   },
   followers: {
     type: Array,

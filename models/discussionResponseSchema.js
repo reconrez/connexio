@@ -2,14 +2,13 @@ const mongoose = require('mongoose');
 
 const DiscussionResponseSchema = new mongoose.Schema({
   discussion_id: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: String,
     ref: 'Discussion',
     required: true
   },
   user_id: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: String,
     ref: 'User',
-    required: true
   },
   content: {
     type: String,
@@ -17,13 +16,13 @@ const DiscussionResponseSchema = new mongoose.Schema({
   },
   likes: [
     {
-      type: mongoose.Schema.Types.ObjectId,
+      type: String,
       ref: 'User'
     }
   ],
   dislikes: [
     {
-      type: mongoose.Schema.Types.ObjectId,
+      type: String,
       ref: 'User'
     }
   ],

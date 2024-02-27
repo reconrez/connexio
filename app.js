@@ -39,10 +39,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'view/dist/')));
 
 
-app.use("/users", userRoutes);
 app.use("/auth", authRoutes);
-app.use("/home", postRoutes);
-app.use("/discussions", discussionRoutes);
+app.use("/api", postRoutes);
+app.use("/api", discussionRoutes);
+app.use("/api", userRoutes);
 app.use("/testing", testRoutes);
 
 // catch 404 and forward to error handler

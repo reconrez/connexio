@@ -3,14 +3,13 @@ const mongoose = require('mongoose');
 
 const DiscussionSchema = new mongoose.Schema({
   discussion_id: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: String,
     ref: 'Discussion',
     required: true
   },
   user_id: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: String,
     ref: 'User',
-    required: true
   },
   topic: {
     type: String,

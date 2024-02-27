@@ -2,22 +2,23 @@
   <div class="card-body">
     <div class="profile-header d-flex justify-content-between">
       <div class="d-flex justify-content-start">
-        <img alt="Profile Photo" class="avatar" src="assets/img/anime3.png" />
-        <h4 class="card-title">UserName</h4>
+        <img alt="Profile Photo" class="avatar" [src]="postData.profilePicture" />
+        <h4 class="card-title pt-1 pl-3">{{postData.username}}</h4>
       </div>
       <div class="post-dropdown">
         <i class=" tim-icons icon-minimal-down"> </i>
       </div>
     </div>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.
+    <p class="card-text">
+      {{postData.content}}
     </p>
-    <a href="#" class="card-link">Like</a>
-    <a href="#" class="card-link">Comments</a>
-    <a href="#" class="card-link">Share</a>
+    <a href="#" class="card-link"><i class="fa-regular fa-thumbs-up"></i></a>
+    <a href="#" class="card-link"><i class="fa-solid fa-thumbs-up"></i></a>
+    <a href="#" class="card-link"><i class="fa-regular fa-comment"></i></a>
   </div>
 </div>
 
-<div class="card border-primary mb-3" style="max-width: 18rem;">
+<!-- <div class="card border-primary mb-3" style="max-width: 18rem;">
   <div class="card-header">
   </div>
   <div class="card-body text-primary">
@@ -25,4 +26,4 @@
     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.
     </p>
   </div>
-</div>
+</div> -->

@@ -20,6 +20,19 @@ export class AuthTokenInterceptor implements HttpInterceptor {
     const accessToken = localStorage.getItem("access_token");
     console.log(request);
 
+    // if(accessToken && request.url.includes("logout")){
+    //   return next.handle(request).pipe(
+    //     catchError((error: HttpErrorResponse) => {
+    //       if (error.status === 401) {
+    //         // Handle unauthorized error (e.g., log out, redirect to login)
+    //         return throwError(() => error); // Re-throw the error to propagate it
+    //       } else {
+    //         return throwError(() => error); // Re-throw other errors
+    //       }
+    //     })
+    //   );
+    // }
+
     if (accessToken) {
       request = request.clone({
         setHeaders: {
@@ -31,7 +44,6 @@ export class AuthTokenInterceptor implements HttpInterceptor {
         catchError((error: HttpErrorResponse) => {
           if (error.status === 401) {
             // Handle unauthorized error (e.g., log out, redirect to login)
-            this.authService.logout();
             return throwError(() => error); // Re-throw the error to propagate it
           } else {
             return throwError(() => error); // Re-throw other errors
@@ -40,7 +52,7 @@ export class AuthTokenInterceptor implements HttpInterceptor {
       );
     } else {
       // Token not found, handle it appropriately (e.g., redirect to login)
-      if (request.url.includes("auth") && request.method.includes("POST")) {
+      if (request.url.includes("login") && request.method.includes("POST")) {
         return next.handle(request).pipe(
           catchError((error: HttpErrorResponse) => {
             if (error.status === 401) {
@@ -51,6 +63,19 @@ export class AuthTokenInterceptor implements HttpInterceptor {
             }
           })
         );
+      } else if(request.url.includes("register")){
+        return next.handle(request).pipe(
+          catchError((error: HttpErrorResponse) => {
+            if (error.status === 401) {
+              // Handle unauthorized error (e.g., log out, redirect to login)
+              return throwError(() => error); // Re-throw the error to propagate it
+            } else {
+              return throwError(() => error); // Re-throw other errors
+            }
+          })
+        );
+      }else {
+        this.authService.handleMissingToken();
       }
       console.log("token not found");
       return throwError(() => "Access token not found");

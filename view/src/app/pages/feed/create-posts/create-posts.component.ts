@@ -1,6 +1,7 @@
 import { AuthService } from 'src/app/services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import {  FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { PostService } from 'src/app/services/post.service';
 
 @Component({
   selector: 'app-create-posts',
@@ -24,25 +25,30 @@ export class CreatePostsComponent implements OnInit {
     };
   }
 
-  constructor(private fb : FormBuilder , private authService : AuthService) { }
+  constructor(private fb : FormBuilder , private authService : AuthService, private postService : PostService) { }
 
   ngOnInit(): void {
   }
 
   createPostForm = this.fb.group({
-    post_id: [null], // Assuming auto-generated, so initially set to null
     user_id: [null, Validators.required],
     content: ['', Validators.required],
     post_type: ['', Validators.required],
     visibility: ['public', Validators.required],
-    reactions: this.fb.array([]), // Initialize as an empty array
   },
   { validators: this.validatePostTypeAndVisibility() }); // Add cross-field validation
 
 
   createPost = () => {
-    console.log(this.createPostForm.value);
-    console.log(this.authService.currentUserValue)
+    var userId = this.authService.getUserId()
+    this.createPostForm.patchValue({
+      user_id : userId,
+      content : this.createPostForm.get('content').value,
+      post_type : 'text',
+      visibility : this.createPostForm.get('visibility').value
+    })
+    console.log(this.createPostForm.value)
+    this.postService.createPost(this.createPostForm.value)
   }
 
 }
