@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators} from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -9,7 +10,7 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(public authService: AuthService) { }
+  constructor(public authService: AuthService, public router: Router) { }
 
   loginForm : FormGroup = new FormGroup({
       username: new FormControl('', [Validators.required, Validators.email]),
@@ -43,7 +44,15 @@ export class LoginComponent implements OnInit {
     }
   }
 
+  checkAuthentication() {
+    if (localStorage.getItem('access_token')) {
+      console.log("Navigate to home page")
+      this.router.navigate(['/home']);
+    }
+  }
+
   ngOnInit(): void {
+    this.checkAuthentication()
   }
 
 }
