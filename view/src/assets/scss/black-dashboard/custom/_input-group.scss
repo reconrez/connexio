@@ -182,15 +182,15 @@
 textarea.form-control{
     max-width: 100%;
     max-height: 80px;
-    padding: 10px 10px 0 0;
+    padding: 10px 10px;
     resize: none;
     border: none;
-    border-bottom: 1px solid lighten($black,5%);
-    border-radius: 0;
-    line-height: 2;
-
+    line-height: 1;
+    box-shadow: inset 4px 4px 2px #222836, inset -2px -2px 2px #303a4e;
+    transition: box-shadow 0.5s;
     &:focus,
     &:active{
+      box-shadow: inset 4px 4px 4px #1f2532, inset -3px -3px 3px #3f4d6a;
         border-left: none;
         border-top: none;
         border-right: none;

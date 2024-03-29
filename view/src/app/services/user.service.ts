@@ -15,9 +15,6 @@ export class UserService {
   getUsers() {}
 
   getUserById(user_id: string) {
-    console.log(`${this.baseUrl}/user`)
-    console.log(typeof user_id)
-    console.log(user_id)
     return this.http.post<any>(`${this.baseUrl}/user`, {user_id})
   }
   handleError(handleError: any) {

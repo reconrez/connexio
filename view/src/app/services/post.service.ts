@@ -10,7 +10,7 @@ export class PostService {
   private readonly baseUrl = 'http://localhost:3000/api';
 
   constructor(private http: HttpClient) {}
-
+  postList = []
   createPost(post: any){
     console.log(`${this.baseUrl}/post`);
     return this.http.post<any>(`${this.baseUrl}/post`, post)
@@ -27,7 +27,7 @@ export class PostService {
   }
 
   getPostById(id: string): Observable<any | null> {
-    return this.http.get<any>(`${this.baseUrl}/${id}`)
+    return this.http.get<any>(`${this.baseUrl}/post/:${id}`)
       .pipe(
         catchError(this.handleError),
         map(post => post || null) // Handle cases where the post may not exist
@@ -35,7 +35,7 @@ export class PostService {
   }
 
   updatePost(id: string, post: any): Observable<any | null> {
-    return this.http.put<any>(`${this.baseUrl}/${id}`, post)
+    return this.http.put<any>(`${this.baseUrl}/post/${id}`, post)
       .pipe(
         catchError(this.handleError),
         map(post => post || null) // Handle cases where the update may fail
@@ -43,7 +43,29 @@ export class PostService {
   }
 
   deletePost(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/${id}`)
+    return this.http.delete<void>(`${this.baseUrl}/post/:${id}`)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  createComment(comment: any){
+    console.log(`${this.baseUrl}/comment`);
+    return this.http.post<any>(`${this.baseUrl}/comment`, comment)
+    .subscribe((res: any) => {
+      console.log(res);
+      (error: any) => {
+        catchError(this.handleError)
+      }
+    })
+  }
+
+  getAllComments() {
+    return this.http.get<any[]>(`${this.baseUrl}/comments`)
+  }
+
+  deleteComment(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/comment/:${id}`)
       .pipe(
         catchError(this.handleError)
       );

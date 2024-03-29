@@ -1,3 +1,4 @@
+import { ProfileComponent } from './../pages/user/profile/profile.component';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, map } from 'rxjs';
@@ -34,11 +35,15 @@ export class AuthService {
     console.log("Login Console Request", username, password);
     return this.http.post<any>(`${this.baseUrl}/auth/login`, { username, password })
       .subscribe((res: any) => {
-        console.log(`Login Service Console Response ${JSON.stringify(res)}`);
-        console.log(typeof res);
-        console.log(res);
+        var currentUser = {
+          user_id: res.user_id,
+          username: res.username,
+          profilePicture: res.profilePicture,
+          email: res.email,
+          role: res.role
+        }
         localStorage.setItem('access_token', JSON.stringify(res.access_token));
-        localStorage.setItem('current_user', JSON.stringify(res.user_id));
+        localStorage.setItem('current_user', JSON.stringify(currentUser));
         this.router.navigate(['home/' + res]);
       });
   }
@@ -80,10 +85,10 @@ export class AuthService {
     console.log("testDiscussions")
     console.log(`${this.baseUrl}/testing/createDiscussion`)
     console.log("Ye wala")
-    return this.http.get<any>(`${this.baseUrl}/testing/createDiscussion`, {})
-    .subscribe((res: any) => {
-      console.log(`Login Service Console Response ${res}`);
-    });
+    // return this.http.get<any>(`${this.baseUrl}/testing/createDiscussion`, {})
+    // .subscribe((res: any) => {
+    //   console.log(`Login Service Console Response ${res}`);
+    // });
   }
 
   register(user: any) {

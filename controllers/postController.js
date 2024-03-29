@@ -1,4 +1,5 @@
 const Post = require("../models/postSchema");
+const Comment = require("../models/postCommentSchema");
 var { v4: uuidv4 } = require('uuid');
 
 const createPost = async (req, res) => {
@@ -86,4 +87,60 @@ const createPost = async (req, res) => {
     }
   }
   
-module.exports = { createPost, getAllPosts, getPostById, updatePost, deletePost };
+  const createComment = async (req, res) => {
+    try {
+      const newComment = new Comment({
+        comment_id: uuidv4(),
+        ...req.body,
+      });
+      console.log(`newComment:=================== ${newComment}`);
+      // console.log(req.body);
+      // const savedComment = await newComment.save();
+      // res.status(201).json(savedComment);
+    } catch (err) {
+      res.status(400).json({
+        error: err.message,
+      });
+    }
+  };
+  
+  const getAllComments = async (req, res) => {
+    try {
+      const comments = await Comment.find();
+      res.json(comments);
+    } catch (err) {
+      res.status(500).json({
+        error: err.message,
+      });
+    }
+  };
+  
+  const deleteComment = async (req, res) => {
+    try {
+      const deletedComment = await Comment.findByIdAndDelete(req.params.id);
+      if (!deletedComment) {
+        res.status(404).json({
+          error: 'Comment not found',
+        });
+      } else {
+        res.json({
+          message: 'Comment deleted successfully',
+        });
+      }
+    } catch (err) {
+      res.status(500).json({
+        error: err.message,
+      });
+    }
+  }
+
+module.exports = { 
+  createPost,
+  getAllPosts, 
+  getPostById, 
+  updatePost, 
+  deletePost,
+  createComment,
+  getAllComments,
+  deleteComment  
+};

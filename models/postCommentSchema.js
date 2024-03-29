@@ -20,16 +20,22 @@ const PostCommentsSchema = new mongoose.Schema({
     content: {
         type: String,
     },
-    likes: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
-    }],
-    dislikes: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
-    }],
+    like: [
+        {
+          user_id: {
+            type: String,
+          },
+          username: {
+            type: String,
+          },
+          profilePicture: {
+            type: String,
+          }
+        },
+      ],
     created_at: {
         type: Date,
+        default: Date.now
     },
 })
 

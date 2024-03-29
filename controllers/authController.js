@@ -114,7 +114,7 @@ const register = async ({ username, email, password, repassword }) => {
 }
 
 const login = async ({ username, password }) => {
-  console.log(username, password);
+
   try {
     const user = await User.findOne({ username });
 
@@ -123,6 +123,8 @@ const login = async ({ username, password }) => {
     }
     const user_id = user.user_id;
     const email = user.email;
+    const profilePicture = user.profilePicture;
+    const role = user.role;
     const validPassword = await bcrypt.compare(password, user.password);
 
     if (!validPassword) {
@@ -138,15 +140,14 @@ const login = async ({ username, password }) => {
     });
 
     await token.save();
-
-    return { status: true, result: { user_id, username, access_token, refresh_token } };
+    
+    return { status: true, result: { user_id, username, profilePicture, role, access_token, refresh_token } };
   } catch (err) {
     return { status: false, result: err.message };
   }
 }
 
 const logout = async ({ access_token }) => {
-  console.log(access_token)
   try {    
     const token = await Token.findOneAndDelete({ access_token });
 

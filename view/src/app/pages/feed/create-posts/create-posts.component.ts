@@ -14,13 +14,11 @@ export class CreatePostsComponent implements OnInit {
     return (group: FormGroup) => {
       const postType = group.get('post_type').value;
       const visibility = group.get('visibility').value;
-
       if (postType === 'image' || postType === 'video') {
         if (visibility === 'private') {
           return { incompatiblePostTypeVisibility: true };
         }
       }
-
       return null; // No validation errors
     };
   }
@@ -50,5 +48,4 @@ export class CreatePostsComponent implements OnInit {
     console.log(this.createPostForm.value)
     this.postService.createPost(this.createPostForm.value)
   }
-
 }

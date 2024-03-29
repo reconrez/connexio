@@ -23,12 +23,12 @@ export class FeedComponent implements OnInit {
   getPosts(){
     this.getPostData = new Promise<any>((response, reject)=>{
     this.postService.getAllPosts().subscribe((res: any) => {
-      console.log(res);
       this.postData = res;
       (error: any) => {
         catchError(error)
       }
       if(this.postData){
+        // console.log("Posts fetched successfully" + JSON.stringify(this.postData))
         response(this.postData)
        }else{
         reject("Error fetching posts")
@@ -36,13 +36,13 @@ export class FeedComponent implements OnInit {
      }) //fetch all the posts
     })
     this.getPostData.then(()=>{
-      console.log(this.getPostData)
-      console.log(typeof this.getPostData)
-      console.log(this.postData)
       this.postData.forEach((post: any, index: any) => {
         this.getUserDetails(post, index) // fetch user details for each post by sending user_id
       })
    })
+   this.getPostData.then(()=>{
+    console.log(this.postData)
+    })
   }
 
   getUserDetails(data, index){
@@ -52,7 +52,6 @@ export class FeedComponent implements OnInit {
          this.postData[index] = {
             ...this.postData[index],
             username: res.username,
-            email: res.email,
             profilePicture: res.profilePicture,
           };
 
@@ -60,7 +59,6 @@ export class FeedComponent implements OnInit {
            catchError(error)
          }
          if(this.userData){
-          console.log(this.postData)
            resolve(this.userData)
          }else{
            reject("Error fetching user")
@@ -69,9 +67,6 @@ export class FeedComponent implements OnInit {
       }catch(err){
         console.log(err)
       }
-
     })
   }
-
-
 }

@@ -9,7 +9,16 @@ const PostSchema = new mongoose.Schema({
     user_id: {
       type: String,
       required: true,
-      unique: false,
+      unique: true,
+    },
+    username: {
+      type: String,
+      required: true,
+    },
+    profilePicture: {
+      type: String,
+      required: true,
+      default: "assets/img/default-avatar.png",
     },
     content: {
       type: String,
@@ -32,15 +41,17 @@ const PostSchema = new mongoose.Schema({
       enum: ['public', 'private', 'friends'],
       default: 'public',
     },
-    reactions: [
+    like: [
       {
-        type: {
-          type: String,
-          enum: ['like', 'dislike'],
-        },
         user_id: {
           type: String,
         },
+        username: {
+          type: String,
+        },
+        profilePicture: {
+          type: String,
+        }
       },
     ],
   });

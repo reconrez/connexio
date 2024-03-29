@@ -25,25 +25,6 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  errorMessage = ()=>{
-    if(this.loginForm.value.username == 'valid' && this.loginForm.value.password == 'valid'){
-      return false
-    }else if(this.loginForm.value.username == 'ServiceData'){
-      console.log("service")
-    }
-  }
-
-  validationCheck = ()=>{
-
-    if(this.loginForm.value.username == 'admin' && this.loginForm.value.password == '123'){
-      console.log("Login Success")
-      this.userLogin()
-    }else{
-      console.log("Login Failed")
-      this.errorMessage()
-    }
-  }
-
   checkAuthentication() {
     if (localStorage.getItem('access_token')) {
       console.log("Navigate to home page")
