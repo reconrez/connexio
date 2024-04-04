@@ -17,7 +17,13 @@ const PostCommentsSchema = new mongoose.Schema({
         required: true,
         unique: true,
     },
-    content: {
+    username: {
+      type: String,
+    },
+    profilePicture: {
+      type: String,
+    },
+    comment: {
         type: String,
     },
     like: [

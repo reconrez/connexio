@@ -28,45 +28,39 @@ export class FeedComponent implements OnInit {
         catchError(error)
       }
       if(this.postData){
-        // console.log("Posts fetched successfully" + JSON.stringify(this.postData))
         response(this.postData)
        }else{
         reject("Error fetching posts")
        }
      }) //fetch all the posts
     })
-    this.getPostData.then(()=>{
-      this.postData.forEach((post: any, index: any) => {
-        this.getUserDetails(post, index) // fetch user details for each post by sending user_id
-      })
-   })
    this.getPostData.then(()=>{
     console.log(this.postData)
     })
   }
 
-  getUserDetails(data, index){
-    var getUser = new Promise((resolve, reject)=>{
-      try{
-        this.userService.getUserById(data.user_id).subscribe((res: any) => {
-         this.postData[index] = {
-            ...this.postData[index],
-            username: res.username,
-            profilePicture: res.profilePicture,
-          };
+  // getUserDetails(data, index){
+  //   var getUser = new Promise((resolve, reject)=>{
+  //     try{
+  //       this.userService.getUserById(data.user_id).subscribe((res: any) => {
+  //        this.postData[index] = {
+  //           ...this.postData[index],
+  //           username: res.username,
+  //           profilePicture: res.profilePicture,
+  //         };
 
-         (error: any) => {
-           catchError(error)
-         }
-         if(this.userData){
-           resolve(this.userData)
-         }else{
-           reject("Error fetching user")
-         }
-     })
-      }catch(err){
-        console.log(err)
-      }
-    })
-  }
+  //        (error: any) => {
+  //          catchError(error)
+  //        }
+  //        if(this.userData){
+  //          resolve(this.userData)
+  //        }else{
+  //          reject("Error fetching user")
+  //        }
+  //    })
+  //     }catch(err){
+  //       console.log(err)
+  //     }
+  //   })
+  // }
 }

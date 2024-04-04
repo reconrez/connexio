@@ -93,10 +93,10 @@ const createPost = async (req, res) => {
         comment_id: uuidv4(),
         ...req.body,
       });
+      console.log(req.body);
       console.log(`newComment:=================== ${newComment}`);
-      // console.log(req.body);
-      // const savedComment = await newComment.save();
-      // res.status(201).json(savedComment);
+      const savedComment = await newComment.save();
+      res.status(201).json(savedComment);
     } catch (err) {
       res.status(400).json({
         error: err.message,

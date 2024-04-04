@@ -19,15 +19,36 @@ export class PostsComponent implements OnInit {
     username: ['', Validators.required],
     profilePicture: ['', Validators.required],
     user_id: ['', Validators.required],
+    post_id: ['', Validators.required]
   })
 
   currentUser = JSON.parse(localStorage.getItem('current_user'));
   like = new BehaviorSubject(false)
   userIndex = 0
+  commentsHide : boolean = false;
+  commentSuccessMessage = ''; // Initially empty
+  initialHeight : any
 
   ngOnInit(): void {
     this.like.subscribe()
     this.checkLike()
+    console.log(this.postData)
+  }
+
+  ngAfterViewInit(){
+   this.initialHeight = document.getElementsByClassName('post-container')
+   console.log(this.initialHeight)
+  }
+
+  boxTransition(){
+    this.initialHeight = document.getElementsByClassName('post-container').item(0).clientHeight
+    console.log(this.initialHeight)
+  }
+
+  commentsVisibility(){
+    this.commentsHide = !this.commentsHide;
+    this.boxTransition()
+    this.fetchComments();
   }
 
   checkLike(){
@@ -76,9 +97,24 @@ export class PostsComponent implements OnInit {
       username: this.currentUser.username,
       profilePicture: this.currentUser.profilePicture,
       user_id: this.currentUser.user_id,
-      comment : this.commentsData.get('comment').value
+      comment : this.commentsData.get('comment').value,
+      post_id : this.postData.post_id
     })
     console.log(`Comment: ================== ${JSON.stringify(this.commentsData.value)}`);
-    this.postService.createComment(this.commentsData.value)
+    this.postService.createComment(this.commentsData.value) 
+    this.commentsData.patchValue({comment : ''}); 
+    this.commentSuccessMessage = 'Your comment has been published!';
+    setTimeout(() => {
+      this.commentSuccessMessage = '';
+    }, 3000);
+    this.fetchComments();
+  }
+
+  fetchComments(){
+    this.postService.getAllComments().subscribe(data => {
+      console.log(data)
+      this.postData.comments = data
+      console.log(this.postData)
+    })
   }
 }

@@ -1,5 +1,5 @@
 
-<div class="card">
+<div class="card post-container">
   <div class="card-body">
     <div class="profile-header d-flex justify-content-between">
       <div class="d-flex justify-content-start">
@@ -18,7 +18,7 @@
       <i *ngIf="like.value" class="fa fa-heart text-primary" aria-hidden="true"></i>
 
     </a>
-    <a class="card-link">
+    <a (click)="commentsVisibility()" class="card-link">
       <i class="fa fa-comment" aria-hidden="true"></i>
     </a>
     <a class="card-link">
@@ -26,14 +26,19 @@
     </a>
 
   </div>
-  <form [formGroup]="commentsData" (ngSubmit)="publishComment()">
-    <div class="card-footer row d-flex align-items-center justify-content-between">
-      <div class="col-sm-10">
+  <div *ngIf="commentsHide" class="card-footer comment-box">
+    <form [formGroup]="commentsData" class="form-inline w-100 d-flex justify-content-between" (ngSubmit)="publishComment()">
+      <div class="comment-container">
         <textarea class="form-control w-100" formControlName="comment" name="comment" id="comment-box"></textarea>
       </div>
-      <div class="col-sm-2 d-flex justify-content-end">
-        <button class="btn btn-round btn-primary" (click)="publishComment()">Send</button>
+      <div class=" d-flex justify-content-end">
+        <a class="btn btn-round btn-fab btn-icon btn-primary text-white" (click)="publishComment()">
+          <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
+        </a>
       </div>
-    </div>
-  </form>
+    </form>
+  </div>
+</div>
+<div *ngIf="commentSuccessMessage" class="alert alert-success" role="alert">
+  {{ commentSuccessMessage }}
 </div>
