@@ -1,30 +1,15 @@
 import { ProfileComponent } from './../../user/profile/profile.component';
 import { PostService } from './../../../services/post.service';
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-
-import { animate, state, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-posts',
   templateUrl: './posts.component.html',
-  styleUrls: ['./posts.component.scss'],
-  animations: [
-    trigger('fadeIn', [
-      state('out', style({ opacity: 0 })),
-      transition('void => in', [
-        style({ opacity: 0 }),
-        animate('200ms ease-in', style({ opacity: 1 })),
-      ]),
-    ]),
-  ],
+  styleUrls: ['./posts.component.scss']
 })
 export class PostsComponent implements OnInit {
-
-  isDeleteIconVisible = false; // Flag to track visibility
-
-  @ViewChild('deleteIcon', { static: true }) deleteIconRef: ElementRef;
 
   @Input() postData: any;
   constructor(public postService : PostService, private fb : FormBuilder) { }
@@ -135,7 +120,11 @@ export class PostsComponent implements OnInit {
     })
   }
 
-  enableDeleteButton() {
-    this.isDeleteIconVisible = true;
+  enableDeleteButton(){
+    if(this.currentUser.user_id === this.postData.user_id){
+      return true
+    }else{
+      return false
+    }
   }
 }
