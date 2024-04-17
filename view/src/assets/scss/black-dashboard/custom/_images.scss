@@ -5,3 +5,10 @@ img{
 .img-raised{
     box-shadow: $box-shadow-raised;
 }
+
+.comment-avatar{
+    width: 20px;
+    height: 20px;
+    overflow: hidden;
+    border-radius: 50%;
+}

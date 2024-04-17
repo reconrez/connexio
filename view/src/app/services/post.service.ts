@@ -12,7 +12,7 @@ export class PostService {
   constructor(private http: HttpClient) {}
   postList = []
   createPost(post: any){
-    console.log(`${this.baseUrl}/post`);
+    console.log(post);
     return this.http.post<any>(`${this.baseUrl}/post`, post)
     .subscribe((res: any) => {
       console.log(res);
@@ -60,12 +60,15 @@ export class PostService {
     })
   }
 
-  getAllComments() {
-    return this.http.get<any[]>(`${this.baseUrl}/comments`)
+  getAllComments(post_id) {
+    console.log(post_id)
+    return this.http.post<any[]>(`${this.baseUrl}/comments`, {post_id: post_id})
+    
   }
 
   deleteComment(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/comment/:${id}`)
+    console.log(`${this.baseUrl}/comment/${id}`);
+    return this.http.delete<void>(`${this.baseUrl}/comment/${id}`)
       .pipe(
         catchError(this.handleError)
       );

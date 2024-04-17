@@ -23,7 +23,7 @@ router.delete('/post/:id', deletePost);
 router.post('/comment', createComment);
 
 // Get all comments  
-router.get('/comments', getAllComments);
+router.post('/comments', getAllComments);
 
 // Delete a comment
 router.delete('/comment/:id', deleteComment);

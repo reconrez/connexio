@@ -1,15 +1,30 @@
 import { ProfileComponent } from './../../user/profile/profile.component';
 import { PostService } from './../../../services/post.service';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-posts',
   templateUrl: './posts.component.html',
-  styleUrls: ['./posts.component.scss']
+  styleUrls: ['./posts.component.scss'],
+  animations: [
+    trigger('fadeIn', [
+      state('out', style({ opacity: 0 })),
+      transition('void => in', [
+        style({ opacity: 0 }),
+        animate('200ms ease-in', style({ opacity: 1 })),
+      ]),
+    ]),
+  ],
 })
 export class PostsComponent implements OnInit {
+
+  isDeleteIconVisible = false; // Flag to track visibility
+
+  @ViewChild('deleteIcon', { static: true }) deleteIconRef: ElementRef;
 
   @Input() postData: any;
   constructor(public postService : PostService, private fb : FormBuilder) { }
@@ -32,17 +47,16 @@ export class PostsComponent implements OnInit {
   ngOnInit(): void {
     this.like.subscribe()
     this.checkLike()
-    console.log(this.postData)
+    this.postData.comments = [];
   }
 
-  ngAfterViewInit(){
-   this.initialHeight = document.getElementsByClassName('post-container')
-   console.log(this.initialHeight)
-  }
+  // ngAfterViewInit(){
+  //  this.initialHeight = document.getElementsByClassName('post-container')
+  //  console.log(this.initialHeight)
+  // }
 
   boxTransition(){
     this.initialHeight = document.getElementsByClassName('post-container').item(0).clientHeight
-    console.log(this.initialHeight)
   }
 
   commentsVisibility(){
@@ -57,10 +71,8 @@ export class PostsComponent implements OnInit {
         if(element.username === this.currentUser.username){
           this.like.next(true);
           this.userIndex = index;
-          console.log(`value exists ${this.like.value}`)
         }else{
           this.like.next(false)
-          console.log(`value doesnot exit ${this.like.value}`)
         }
       });
     }else{
@@ -71,11 +83,9 @@ export class PostsComponent implements OnInit {
   sendLike(){
     // this.checkLike()
     if(this.like.value){
-      console.log("Data exists, removal in progress")
       this.postData.like.splice(this.userIndex, 1)
       this.like.next(false)
     }else{
-      console.log("Data doesnot exist, adding data")
       this.postData.like.push(
         {
           user_id: this.currentUser.user_id,
@@ -85,10 +95,7 @@ export class PostsComponent implements OnInit {
       )
       this.like.next(true)
     }
-    console.log(`postData ${this.postData}`)
-    console.log(this.like)
     this.postService.updatePost(this.postData._id, this.postData).subscribe(data =>{
-      console.log(data)
     })
   }
 
@@ -111,10 +118,24 @@ export class PostsComponent implements OnInit {
   }
 
   fetchComments(){
-    this.postService.getAllComments().subscribe(data => {
+    console.log(this.postData.post_id)
+    this.postService.getAllComments(this.postData.post_id).subscribe(data => {
       console.log(data)
       this.postData.comments = data
       console.log(this.postData)
     })
+  }
+
+  deleteComment(_id){
+    console.log(_id)
+    this.postService.deleteComment(_id).subscribe(data => {
+      this.fetchComments()
+      console.log('success')
+      console.log(data)
+    })
+  }
+
+  enableDeleteButton() {
+    this.isDeleteIconVisible = true;
   }
 }

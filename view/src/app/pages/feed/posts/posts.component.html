@@ -1,4 +1,3 @@
-
 <div class="card post-container">
   <div class="card-body">
     <div class="profile-header d-flex justify-content-between">
@@ -26,9 +25,32 @@
     </a>
 
   </div>
+
+  <!-- add comments loop -->
+  <div *ngIf="postData.comments" class="comment-container ml-4 mr-2">
+    <div *ngFor="let comment of postData.comments" class= "panel panel-default mb-3 comment">
+        <div class="row">
+          <div class=" col-sm-10 d-flex align-items-center">
+            <img alt="Profile Photo" class="comment-avatar avatar rounded-circle mr-3" [src]="comment.profilePicture" />
+            <h6 class="card-title">{{comment.username}}</h6>
+          </div>
+          <a *ngIf="enableDeleteButton" id="delete-icon" class="col-sm-2 d-flex justify-content-end align-items-center delete-icon card-link"  (click)="deleteComment(comment._id)">
+            <i class="fa fa-trash text-primary" aria-hidden="true"></i>
+          </a>
+        </div>
+         <p class="card-text">{{comment.comment}}</p>
+        <!-- <a class="card-link" (click)="sendLike(comment._id)">
+          <i *ngIf="!like.value" class="fa fa-heart text-secondary" aria-hidden="true"></i>
+          <i *ngIf="like.value" class="fa fa-heart text-primary" aria-hidden="true"></i>
+        </a> -->
+    </div>
+  </div>
+
+
   <div *ngIf="commentsHide" class="card-footer comment-box">
-    <form [formGroup]="commentsData" class="form-inline w-100 d-flex justify-content-between" (ngSubmit)="publishComment()">
-      <div class="comment-container">
+    <form [formGroup]="commentsData" class="form-inline w-100 d-flex justify-content-between"
+      (ngSubmit)="publishComment()">
+      <div class="comment-text-box">
         <textarea class="form-control w-100" formControlName="comment" name="comment" id="comment-box"></textarea>
       </div>
       <div class=" d-flex justify-content-end">

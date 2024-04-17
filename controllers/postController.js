@@ -3,12 +3,21 @@ const Comment = require("../models/postCommentSchema");
 var { v4: uuidv4 } = require('uuid');
 
 const createPost = async (req, res) => {
+  console.log(`==========================================================================================`);
+  console.log(`==========================================================================================`);
+  console.log(`==========================================================================================`);
+  console.log(`==========================================================================================`);
+  console.log(`${req.body}`);
+  console.log(`==========================================================================================`);
+  console.log(`==========================================================================================`);
+  console.log(`==========================================================================================`);
+  console.log(`==========================================================================================`);
   try {
     const newPost = new Post({
       post_id: uuidv4(),
       ...req.body
     });
-    console.log(`newPost: ${newPost}`);
+    // console.log(`newPost: ${newPost}`);
     const savedPost = await newPost.save();
     res.status(201).json(savedPost);
   } catch (err) {
@@ -106,7 +115,8 @@ const createPost = async (req, res) => {
   
   const getAllComments = async (req, res) => {
     try {
-      const comments = await Comment.find();
+      console.log(`=========================${req.body}==============================`);
+      const comments = await Comment.find(req.body);
       res.json(comments);
     } catch (err) {
       res.status(500).json({

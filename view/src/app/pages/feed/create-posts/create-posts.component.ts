@@ -10,6 +10,8 @@ import { PostService } from 'src/app/services/post.service';
 })
 export class CreatePostsComponent implements OnInit {
 
+  currentUser : any;
+
   validatePostTypeAndVisibility() {
     return (group: FormGroup) => {
       const postType = group.get('post_type').value;
@@ -26,10 +28,14 @@ export class CreatePostsComponent implements OnInit {
   constructor(private fb : FormBuilder , private authService : AuthService, private postService : PostService) { }
 
   ngOnInit(): void {
+    this.currentUser = JSON.parse(localStorage.getItem('current_user'));
+    console.log(this.currentUser)
   }
 
   createPostForm = this.fb.group({
     user_id: [null, Validators.required],
+    username: [null, Validators.required],
+    profilePicture: [null, Validators.required],
     content: ['', Validators.required],
     post_type: ['', Validators.required],
     visibility: ['public', Validators.required],
@@ -38,9 +44,11 @@ export class CreatePostsComponent implements OnInit {
 
 
   createPost = () => {
-    var userId = this.authService.getUserId()
+    console.log("hello")
     this.createPostForm.patchValue({
-      user_id : userId,
+      user_id : this.currentUser.user_id,
+      username : this.currentUser.username,
+      profilePicture : this.currentUser.profilePicture,
       content : this.createPostForm.get('content').value,
       post_type : 'text',
       visibility : this.createPostForm.get('visibility').value

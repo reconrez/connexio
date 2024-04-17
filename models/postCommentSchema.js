@@ -5,7 +5,6 @@ const PostCommentsSchema = new mongoose.Schema({
     post_id: {
         type: String,
         required: true,
-        unique: true,
     },
     comment_id: {
         type: String,
@@ -15,7 +14,6 @@ const PostCommentsSchema = new mongoose.Schema({
     user_id: {
         type: String,
         required: true,
-        unique: true,
     },
     username: {
       type: String,

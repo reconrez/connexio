@@ -17,19 +17,12 @@ export class AuthService {
     return this.userId
   }
 
-  private currentUserSubject: BehaviorSubject<any>;
-  public currentUser: Observable<any>;
+
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
   isAuthenticated = this.isAuthenticatedSubject.asObservable();
 
-  constructor(private http: HttpClient, public router: Router) {
-    this.currentUserSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('currentUser')));
-    this.currentUser = this.currentUserSubject.asObservable();
-  }
+  constructor(private http: HttpClient, public router: Router) {}
 
-  public get currentUserValue(): any {
-    return this.currentUserSubject.value;
-  }
 
   login(username: string, password: string) {
     console.log("Login Console Request", username, password);

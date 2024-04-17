@@ -9,7 +9,7 @@
         <i class=" tim-icons icon-minimal-down"> </i>
       </div>
     </div>
-    <form [formGroup]="createPostForm" (ngSubmit)="createPost()">
+    <form [formGroup]="createPostForm">
       <div class="form-group">
         <textarea class="form-control post-textarea" formControlName="content"  name="" id="" rows="3"></textarea>
       </div>
@@ -25,7 +25,7 @@
             <i class="fa fa-share"></i>
           </a>
         </div>
-        <a class="btn btn-primary btn-round text-white">
+        <a class="btn btn-primary btn-round text-white" (click)="createPost()" >
           Send
         </a>
       </div>
