@@ -85,6 +85,18 @@ export class AuthService {
   }
 
   register(user: any) {
-    return this.http.post(`${this.baseUrl}/users/register`, user);
+    return this.http.post(`${this.baseUrl}/auth/register`, user).subscribe((res: any) => {
+      console.log(`Login Service Console Response ${res}`);
+      var currentUser = {
+        user_id: res.user_id, 
+        username: res.username,
+        profilePicture: res.profilePicture,
+        email: res.email,
+        role: res.role
+      }
+      localStorage.setItem('access_token', JSON.stringify(res.access_token));
+      localStorage.setItem('current_user', JSON.stringify(currentUser));
+      // this.router.navigate(['home/' + res]);
+    });
   }
 }

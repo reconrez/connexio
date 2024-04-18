@@ -1,1 +1,66 @@
-<p>register works!</p>
+
+
+
+<div class=" container mt-5">
+    <div class="row d-flex justify-content-center">
+        <h1>Sign Up</h1>
+    </div>
+    <div class="form-container d-flex justify-content-center">
+
+        <form [formGroup]="registerForm" class="row flex-column w-75 ">
+            <div class="form-group d-flex justify-content-center">
+              <label for="username" class="col-sm-2 col-form-label ">Username:</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="username" formControlName="username" placeholder="Enter Username">
+                <div *ngIf="registerForm.get('username').hasError('required')" class="alert alert-danger">
+                  Username is required
+                </div>
+              </div>
+            </div>
+            <div class="form-group d-flex justify-content-center">
+              <label for="email" class="col-sm-2 col-form-label">Email:</label>
+              <div class="col-sm-10">
+                <input type="email" class="form-control" id="email" formControlName="email" placeholder="Enter Email">
+                <div *ngIf="registerForm.get('email').hasError('required')" class="alert alert-danger">
+                  Email is required
+                </div>
+                <div *ngIf="registerForm.get('email').hasError('email')" class="alert alert-danger">
+                  Invalid Email format
+                </div>
+              </div>
+            </div>
+            <div class="form-group d-flex justify-content-center">
+              <label for="password" class="col-sm-2 col-form-label">Password:</label>
+              <div class="col-sm-10">
+                <input type="password" class="form-control" id="password" formControlName="password" placeholder="Enter Password">
+                <div *ngIf="registerForm.get('password').hasError('required')" class="alert alert-danger">
+                  Password is required
+                </div>
+              </div>
+            </div>
+            <div class="form-group d-flex justify-content-center">
+              <label for="repassword" class="col-sm-2 col-form-label">Confirm Password:</label>
+              <div class="col-sm-10">
+                <input type="password" class="form-control" id="repassword" formControlName="repassword" placeholder="Confirm Password">
+                <div *ngIf="registerForm.get('repassword').hasError('required')" class="alert alert-danger">
+                  Confirm Password is required
+                </div>
+                <div *ngIf="registerForm.get('passwordMismatch')" class="alert alert-danger">
+                  Passwords do not match
+                </div>
+              </div>
+            </div>
+            <div class="form-group d-flex justify-content-center">
+              <div class="col-sm-10 offset-sm-2">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="agree">
+                  <label class="form-check-label" for="agree">
+                    Agree to terms and conditions
+                  </label>
+                </div>
+              </div>
+            </div>
+            <a class="btn btn-primary" (click)="signUp()">Sign Up </a>
+          </form>
+    </div>
+  </div>

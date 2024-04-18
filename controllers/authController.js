@@ -74,23 +74,40 @@ const getNewAccessToken = async ({ refresh_token }) => {
   }
 }
 
-const register = async ({ username, email, password, repassword }) => {
+const register = async ({
+  username,
+  email,
+  password,
+  repassword
+}) => {
   const emailRegExp = /\S+@\S+\.\S+/;
 
   if (!username) {
-    return { status: false, result: "Username is required" };
+    return {
+      status: false,
+      result: "Username is required"
+    };
   }
 
   if (!emailRegExp.test(email)) {
-    return { status: false, result: "Invalid Email" };
+    return {
+      status: false,
+      result: "Invalid Email"
+    };
   }
 
   if (!password) {
-    return { status: false, result: "Password is required" };
+    return {
+      status: false,
+      result: "Password is required"
+    };
   }
 
   if (password !== repassword) {
-    return { status: false, result: "Password mismatch" };
+    return {
+      status: false,
+      result: "Password mismatch"
+    };
   }
 
   const hash = await bcrypt.hash(password, 10);
@@ -105,21 +122,50 @@ const register = async ({ username, email, password, repassword }) => {
       role: 'user',
     });
 
-    let savedUser = await user.save();
+    await user.save();
 
-    return { status: true, result: savedUser };
+    const payload = {
+      user_id: uuid,
+      email
+    };
+    const access_token = getAccessToken(payload);
+    const refresh_token = getRefreshToken(payload);
+
+    return {
+      status: true,
+      result: {
+        username : user.username,
+        email : user.email,
+        user_id: user.user_id,
+        profilePicture : "assets/img/default-avatar.png",
+        role : user.role,
+        access_token,
+        refresh_token
+      }
+    };
   } catch (err) {
-    return { status: false, result: "Username or Email already taken" };
+    return {
+      status: false,
+      result: "Username or Email already taken"
+    };
   }
 }
 
-const login = async ({ username, password }) => {
+const login = async ({
+  username,
+  password
+}) => {
 
   try {
-    const user = await User.findOne({ username });
+    const user = await User.findOne({
+      username
+    });
 
     if (!user) {
-      return { status: false, result: "Invalid Username" };
+      return {
+        status: false,
+        result: "Invalid Username"
+      };
     }
     const user_id = user.user_id;
     const email = user.email;
@@ -128,16 +174,23 @@ const login = async ({ username, password }) => {
     const validPassword = await bcrypt.compare(password, user.password);
 
     if (!validPassword) {
-      return { status: false, result: "Invalid Password" };
+      return {
+        status: false,
+        result: "Invalid Password"
+      };
     }
 
-    const payload = { user_id, email };
+    const payload = {
+      user_id,
+      email
+    };
     const access_token = getAccessToken(payload);
     const refresh_token = getRefreshToken(payload);
     const token = new Token({
       refresh_token,
       user_id
     });
+
 
     await token.save();
     
