@@ -102,10 +102,25 @@ export class PostsComponent implements OnInit {
     this.fetchComments();
   }
 
+  enableDeleteButton(userId){
+    return false;
+    console.log(userId)
+    if(this.currentUser.user_id === userId){
+      console.log("User can delete own comment")
+      return true
+    }else{
+      console.log(`"User cannot delete another user's comment"`);
+      return false
+    }
+  }
+
   fetchComments(){
     console.log(this.postData.post_id)
     this.postService.getAllComments(this.postData.post_id).subscribe(data => {
       console.log(data)
+      data.forEach((element, index) => {
+        data[index].canDelete = this.enableDeleteButton(element.user_id)
+      })
       this.postData.comments = data
       console.log(this.postData)
     })
@@ -118,13 +133,5 @@ export class PostsComponent implements OnInit {
       console.log('success')
       console.log(data)
     })
-  }
-
-  enableDeleteButton(){
-    if(this.currentUser.user_id === this.postData.user_id){
-      return true
-    }else{
-      return false
-    }
   }
 }

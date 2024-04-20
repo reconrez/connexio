@@ -1,6 +1,6 @@
 <app-create-posts></app-create-posts>
 <div class="post-section">
-  <div *ngFor="let post of postData" class="individual-posts">
+  <div *ngFor="let post of postData | decending" class="individual-posts">
     <app-posts [postData]="post"></app-posts>
   </div>
 </div>

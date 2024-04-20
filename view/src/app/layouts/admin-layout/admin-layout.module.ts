@@ -27,6 +27,7 @@ import { TypographyComponent } from "../../pages/typography/typography.component
 // import { RtlComponent } from "../../pages/rtl/rtl.component";
 
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { DecendingPipe } from "src/app/pipes/decending.pipe";
 
 @NgModule({
   imports: [
@@ -55,6 +56,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
     TypographyComponent,
     NotificationsComponent,
     MapComponent,
+    DecendingPipe
     // RtlComponent
   ]
 })

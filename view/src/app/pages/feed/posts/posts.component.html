@@ -34,8 +34,10 @@
             <img alt="Profile Photo" class="comment-avatar avatar rounded-circle mr-3" [src]="comment.profilePicture" />
             <h6 class="card-title">{{comment.username}}</h6>
           </div>
-          <a *ngIf="enableDeleteButton" id="delete-icon" class="col-sm-2 d-flex justify-content-end align-items-center delete-icon card-link"  (click)="deleteComment(comment._id)">
-            <i class="fa fa-trash text-primary" aria-hidden="true"></i>
+          <a *ngIf="comment.canDelete" id="delete-icon"
+           class="col-sm-2 d-flex justify-content-end align-items-center delete-icon card-link"
+           >
+            <i (click)="deleteComment(comment._id)" class="fa fa-trash text-primary" aria-hidden="true"></i>
           </a>
         </div>
          <p class="card-text">{{comment.comment}}</p>

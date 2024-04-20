@@ -16,10 +16,11 @@ export class PostService {
     return this.http.post<any>(`${this.baseUrl}/post`, post)
     .subscribe((res: any) => {
       console.log(res);
+      this.getAllPosts();
       (error: any) => {
         catchError(this.handleError)
       }
-     })
+    })
   }
 
   getAllPosts() {
