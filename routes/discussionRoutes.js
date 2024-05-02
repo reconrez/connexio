@@ -10,7 +10,7 @@ router.put('/discussion/:id', updateDiscussion);
 router.delete('/discussion/:id', deleteDiscussion);
 
 router.get('/response', getResponses);
-router.get('/discussion/:discussionId/response', getResponsesByDiscussionId);
+router.get('/discussion/response', getResponsesByDiscussionId);
 router.post('/response', createResponse);
 router.put('/response/:id', updateResponse);
 router.delete('/response/:id', deleteResponse);

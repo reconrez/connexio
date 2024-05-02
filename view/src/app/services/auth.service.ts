@@ -29,6 +29,7 @@ export class AuthService {
     return this.http.post<any>(`${this.baseUrl}/auth/login`, { username, password })
       .subscribe((res: any) => {
         var currentUser = {
+          _id: res._id,
           user_id: res.user_id,
           username: res.username,
           profilePicture: res.profilePicture,

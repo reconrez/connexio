@@ -1,0 +1,57 @@
+<section class="content h-100">
+
+    <div 
+    class="card discussion h-100">
+      <div class="card-body">
+        <h2 class="card-title">{{discussion.topic}}</h2>
+        <p class="card-text">{{discussion.content}}</p>
+      </div>
+      <div class="card-footer row py-0 px-3">
+        <div class="col-sm-6 d-flex justify-content-start align-items-center pb-2">
+          <p class="p-0 m-0">{{discussion.created_at | date}}</p>
+        </div>
+        <div class="col-sm-6 d-flex justify-content-end align-items-center pb-2">
+          <img alt="Profile Photo" class="avatar discussion-avatar" src="assets/img/anime3.png" />
+          <p class="card-title px-1 m-0">{{discussion.username}}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card p-2">
+      <div class="row w-100 pb-4 m-0">
+        <form  [formGroup]="createResponseForm" class="row w-100 m-0">
+          <div class="form-inline w-100">
+            <textarea formControlName="response" class="form-control discussion-textarea pb-5" name="" id="" placeholder="Type your Response here" rows="4"></textarea>
+          </div>
+          <div class="post-buttons row m-0 w-100 d-flex justify-content-end align-items-center">
+            <a class="attachment-button btn btn-outline-primary text-white">
+              Attach<i class="fa fa-paperclip px-2"aria-hidden="true"></i>
+            </a>
+            <a (click)="createResponse()" class="response-button btn btn-outline-primary text-white">
+              Post<i class="fa fa-arrow-circle-right px-2" aria-hidden="true"></i>
+            </a>
+          </div>
+        </form>
+      </div>
+
+    <div 
+    *ngFor="let response of responses"
+    class="card responses h-100">
+      <div class="card-body">
+        <div class="row">
+            <div class="col-sm-6 d-flex justify-content-start align-items-center pb-2">
+                <img alt="Profile Photo" class="avatar discussion-avatar" src="assets/img/anime3.png" />
+                <p class="card-title px-1 m-0">{{response.username}}</p>
+            </div>
+              <div class="col-sm-6 d-flex justify-content-end align-items-center pb-2">
+                <p class="p-0 m-0">{{response.created_at | date}}</p>
+                <a class="btn btn-link" (click)="deleteResponse(response._id, response.user_id)">
+                  <i class="fa fa-trash text-white pl-3 pr-1" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+        <p class="card-text">{{response.response}}</p>
+      </div>
+    </div>
+    </div>
+</section>

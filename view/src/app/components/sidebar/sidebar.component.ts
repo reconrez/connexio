@@ -29,13 +29,13 @@ export const ROUTES: RouteInfo[] = [
     icon: "icon-chart-pie-36",
     class: ""
   },
-  {
-    path: "/notifications",
-    title: "Notifications",
-    rtlTitle: "لوحة القيادة",
-    icon: "icon-chart-pie-36",
-    class: ""
-  },
+  // {
+  //   path: "/notifications",
+  //   title: "Notifications",
+  //   rtlTitle: "لوحة القيادة",
+  //   icon: "icon-chart-pie-36",
+  //   class: ""
+  // },
   {
     path: "/connections",
     title: "Connections",
@@ -44,39 +44,39 @@ export const ROUTES: RouteInfo[] = [
     class: ""
   },
   {
-    path: "/discussions",
-    title: "Discussions",
+    path: "/forum",
+    title: "Forum",
     rtlTitle: "لوحة القيادة",
     icon: "icon-chart-pie-36",
     class: ""
   },
-  {
-    path: "/notifications",
-    title: "Notifications",
-    rtlTitle: "لوحة القيادة",
-    icon: "icon-chart-pie-36",
-    class: ""
-  },
-  {
-    path: "/icons",
-    title: "Icons",
-    rtlTitle: "الرموز",
-    icon: "icon-atom",
-    class: ""
-  },
-  {
-    path: "/maps",
-    title: "Maps",
-    rtlTitle: "خرائط",
-    icon: "icon-pin",
-    class: "" },
-  {
-    path: "/notifications",
-    title: "Notifications",
-    rtlTitle: "إخطارات",
-    icon: "icon-bell-55",
-    class: ""
-  },
+  // {
+  //   path: "/notifications",
+  //   title: "Notifications",
+  //   rtlTitle: "لوحة القيادة",
+  //   icon: "icon-chart-pie-36",
+  //   class: ""
+  // },
+  // {
+  //   path: "/icons",
+  //   title: "Icons",
+  //   rtlTitle: "الرموز",
+  //   icon: "icon-atom",
+  //   class: ""
+  // },
+  // {
+  //   path: "/maps",
+  //   title: "Maps",
+  //   rtlTitle: "خرائط",
+  //   icon: "icon-pin",
+  //   class: "" },
+  // {
+  //   path: "/notifications",
+  //   title: "Notifications",
+  //   rtlTitle: "إخطارات",
+  //   icon: "icon-bell-55",
+  //   class: ""
+  // },
 
   {
     path: "/user",
@@ -92,27 +92,27 @@ export const ROUTES: RouteInfo[] = [
     icon: "icon-single-02",
     class: ""
   },
-  {
-    path: "/tables",
-    title: "Table List",
-    rtlTitle: "قائمة الجدول",
-    icon: "icon-puzzle-10",
-    class: ""
-  },
-  {
-    path: "/typography",
-    title: "Typography",
-    rtlTitle: "طباعة",
-    icon: "icon-align-center",
-    class: ""
-  },
-  {
-    path: "/rtl",
-    title: "RTL Support",
-    rtlTitle: "ار تي ال",
-    icon: "icon-world",
-    class: ""
-  }
+  // {
+  //   path: "/tables",
+  //   title: "Table List",
+  //   rtlTitle: "قائمة الجدول",
+  //   icon: "icon-puzzle-10",
+  //   class: ""
+  // },
+  // {
+  //   path: "/typography",
+  //   title: "Typography",
+  //   rtlTitle: "طباعة",
+  //   icon: "icon-align-center",
+  //   class: ""
+  // },
+  // {
+  //   path: "/rtl",
+  //   title: "RTL Support",
+  //   rtlTitle: "ار تي ال",
+  //   icon: "icon-world",
+  //   class: ""
+  // }
 ];
 
 @Component({

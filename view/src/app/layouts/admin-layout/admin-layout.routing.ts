@@ -11,6 +11,7 @@ import { TypographyComponent } from "../../pages/typography/typography.component
 import { TokensComponent } from 'src/app/pages/user/tokens/tokens.component';
 import { DiscussionsComponent } from 'src/app/pages/discussions/discussions.component';
 import { MessagesComponent } from 'src/app/pages/messages/messages.component';
+import { DiscussionPageComponent } from 'src/app/pages/discussion-page/discussion-page.component';
 
 // import { RtlComponent } from "../../pages/rtl/rtl.component";
 
@@ -20,7 +21,8 @@ export const AdminLayoutRoutes: Routes = [
   { path: "messages", component: MessagesComponent },
   { path: "notification", component: NotificationsComponent },
   // { path: "connections", component:  },
-  { path: "discussions", component: DiscussionsComponent },
+  { path: "forum", component: DiscussionsComponent },
+  { path: "discussion/:id", component: DiscussionPageComponent },
   { path: "notifications", component: NotificationsComponent },
   { path: "connextokens", component: TokensComponent },
   { path: "dashboard", component: DashboardComponent },

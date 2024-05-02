@@ -11,9 +11,18 @@ const DiscussionSchema = new mongoose.Schema({
     type: String,
     ref: 'User',
   },
+  username: {
+    type: String,
+    required: true,
+  },
+  profilePicture: {
+    type: String,
+    required: true,
+    default: "assets/img/default-avatar.png",
+  },
   topic: {
     type: String,
-    required: true
+    required: true,
   },
   content: {
     type: String,

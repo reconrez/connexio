@@ -1,37 +1,60 @@
 <section class="content h-100">
-  <div class="card h-100">
-    <div class="card-header">
-      Conversation
-    </div>
+  
+  <div class="card">         
     <div class="card-body">
-      <div class="message-list">
-        <div class="card mb-3">
-          <div class="card-body">
-            <p class="text-muted mb-1">John Doe</p>
-            <p>Hello! How are you doing?</p>
-          </div>
+      <div class="profile-header d-flex justify-content-between">
+        <div class="d-flex justify-content-start align-items-center">
+          <img alt="Profile Photo" class="avatar" src="{{currentUser.profilePicture}}" />
+          <h4 class="card-title px-2">{{currentUser.username}}</h4>
         </div>
-        <div class="card mb-3 text-end">
-          <div class="card-body">
-            <p class="text-muted mb-1">Jane Doe</p>
-            <p>Hi John, I'm doing great! What's up?</p>
-          </div>
-        </div>
-        <div class="card mb-3">
-          <div class="card-body">
-            <p class="text-muted mb-1">John Doe</p>
-            <p>Just wanted to say hi and see how you were. Anything new?</p>
-          </div>
+        <div class="post-dropdown">
+          <i class=" tim-icons icon-minimal-down"> </i>
         </div>
       </div>
-    </div>
-    <div class="card-footer">
-      <form action="#">
-        <div class="form-group mb-3">
-          <textarea class="form-control" id="messageInput" rows="3" placeholder="Type your message"></textarea>
+      <form [formGroup]="createDiscussionForm">
+        <div class="form-group">
+          <input formControlName="topic" class="form-control post-input" name="" id="" placeholder="Topic" >
         </div>
-        <button type="submit" class="btn btn-primary">Send</button>
+        <div class="form-group">
+          <textarea formControlName="content" class="form-control post-textarea" name="" id="" placeholder="Description" rows="3"></textarea>
+        </div>
+        <div class="row d-flex justify-content-between px-3">
+          <div class="post-type">
+            <a class="btn btn-primary btn-fab btn-icon btn-round text-white">
+              <i class="fa fa-paperclip" aria-hidden="true"></i>
+            </a>
+            <a class="btn btn-primary btn-fab btn-icon btn-round text-white">
+              <i class="tim-icons icon-single-copy-04"></i>
+            </a>
+            <a class="btn btn-primary btn-fab btn-icon btn-round text-white">
+              <i class="fa fa-share"></i>
+            </a>
+          </div>
+          <a (click)="createDiscussion()" class="btn btn-primary btn-round text-white">
+            Create Discussion
+          </a>
+        </div>
       </form>
+    </div>
+  </div>
+  
+  <div 
+  *ngFor="let discussions of discussionData | decending" 
+  (click)="openDiscussions(discussions)" 
+  id="{{discussions.discussion_id}}" 
+  class="card discussion h-100">
+    <div class="card-body">
+      <h2 class="card-title">{{discussions.topic}}</h2>
+      <p class="card-text">{{discussions.content}}</p>
+    </div>
+    <div class="card-footer row py-0 px-3">
+      <div class="col-sm-6 d-flex justify-content-start align-items-center pb-2">
+        <p class="p-0 m-0">{{discussions.created_at | date}}</p>
+      </div>
+      <div class="col-sm-6 d-flex justify-content-end align-items-center pb-2">
+        <img alt="Profile Photo" class="avatar discussion-avatar" src="assets/img/anime3.png" />
+        <p class="card-title px-1 m-0">{{discussions.username}}</p>
+      </div>
     </div>
   </div>
 </section>

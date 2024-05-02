@@ -1,4 +1,5 @@
  const Response = require('../models/discussionResponseSchema');
+ var { v4: uuidv4 } = require('uuid');
 
 const getResponses = async (req, res) => {
     try {
@@ -28,17 +29,21 @@ const getResponsesByDiscussionId = async (req, res) => {
 };
 
 const createResponse = async (req, res) => {
+    console.log(req.body)
     try {
-        const response = new Response(req.body);
-        const savedResponse = await response.save();
-        res.json(savedResponse);
+      const newResponse = new Response({
+        response_id: uuidv4(),
+        ...req.body
+      });
+      const savedResponse = await newResponse.save();
+      res.status(201).json(savedResponse);
+      console.log(`newResponse: ${newResponse}`);
     } catch (err) {
-        console.error(err);
-        res.status(400).json({
-            message: 'Error creating response'
-        });
+      res.status(400).json({
+        error: err.message
+      });
     }
-};
+  }
 
 const updateResponse = async (req, res) => {
     try {

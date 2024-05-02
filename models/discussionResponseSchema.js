@@ -1,3 +1,4 @@
+const { response } = require('express');
 const mongoose = require('mongoose');
 
 const DiscussionResponseSchema = new mongoose.Schema({
@@ -6,34 +7,31 @@ const DiscussionResponseSchema = new mongoose.Schema({
     ref: 'Discussion',
     required: true
   },
+  response_id: {
+    type: String,
+    required: true,
+    unique: true
+  },
   user_id: {
     type: String,
+    required: true,
     ref: 'User',
   },
-  content: {
+  response: {
     type: String,
     required: true
   },
   likes: [
     {
-      type: String,
-      ref: 'User'
-    }
-  ],
-  dislikes: [
-    {
-      type: String,
-      ref: 'User'
+      user_id: {
+        type: String,
+      }
     }
   ],
   created_at: {
     type: Date,
     default: Date.now
-  },
-  updated_at: {
-    type: Date,
-    default: Date.now
-  },
+  }
 });
 
 module.exports = mongoose.model('DiscussionResponse', DiscussionResponseSchema);

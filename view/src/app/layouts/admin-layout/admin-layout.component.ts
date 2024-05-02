@@ -12,6 +12,7 @@ export class AdminLayoutComponent implements OnInit {
   changeSidebarColor(color){
     var sidebar = document.getElementsByClassName('sidebar')[0];
     var mainPanel = document.getElementsByClassName('main-panel')[0];
+    var navBar = document.getElementsByClassName('navbar')[0];
 
     this.sidebarColor = color;
 
@@ -20,6 +21,9 @@ export class AdminLayoutComponent implements OnInit {
     }
     if(mainPanel != undefined){
         mainPanel.setAttribute('data',color);
+    }
+    if(navBar != undefined){
+        navBar.setAttribute('data',color);
     }
   }
   changeDashboardColor(color){

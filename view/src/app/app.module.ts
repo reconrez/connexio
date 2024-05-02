@@ -24,6 +24,9 @@ import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { TessComponent } from './tess/tess.component';
+import { PageComponent } from './pages/page/page.component';
+import { DiscussionPageComponent } from './pages/discussion-page/discussion-page.component';
+import { PostPageComponent } from './pages/post-page/post-page.component';
 
 @NgModule({
   imports: [
@@ -40,7 +43,7 @@ import { TessComponent } from './tess/tess.component';
   declarations: [
     AppComponent,
     AdminLayoutComponent,
-    AuthLayoutComponent, LoginComponent, RegisterComponent, TessComponent],
+    AuthLayoutComponent, LoginComponent, RegisterComponent, TessComponent, PageComponent, DiscussionPageComponent, PostPageComponent],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthTokenInterceptor, multi: true }
   ],

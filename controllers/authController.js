@@ -167,6 +167,7 @@ const login = async ({
         result: "Invalid Username"
       };
     }
+    const _id = user._id;
     const user_id = user.user_id;
     const email = user.email;
     const profilePicture = user.profilePicture;
@@ -194,7 +195,7 @@ const login = async ({
 
     await token.save();
     
-    return { status: true, result: { user_id, username, profilePicture, role, access_token, refresh_token } };
+    return { status: true, result: { _id, user_id, username, profilePicture, role, access_token, refresh_token } };
   } catch (err) {
     return { status: false, result: err.message };
   }

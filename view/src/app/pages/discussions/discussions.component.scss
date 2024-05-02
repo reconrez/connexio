@@ -1,0 +1,12 @@
+.card{
+    
+}
+
+.discussion{
+    cursor: pointer;
+    transition: transform 0.5s;
+}
+
+.discussion:hover{
+    transform: scale(1.01);
+}

@@ -8,6 +8,8 @@ import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component
 import { LoginComponent } from "./auth/login/login.component";
 import { RegisterComponent } from "./auth/register/register.component";
 import { TessComponent } from "./tess/tess.component";
+import { DiscussionsComponent } from "./pages/discussions/discussions.component";
+import { DiscussionPageComponent } from "./pages/discussion-page/discussion-page.component";
 
 const routes: Routes = [
   {
