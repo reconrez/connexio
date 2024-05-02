@@ -1,47 +1,47 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
 # compiled output
-view/dist
-view/tmp
-view/out-tsc
+client/dist
+client/tmp
+client/out-tsc
 # Only exists if Bazel was run
-view/bazel-out
+client/bazel-out
 
 # dependencies
-view/node_modules
-node_modules
+client/node_modules
+server/node_modules
 
 # profiling files
-view/chrome-profiler-events.json
-view/speed-measure-plugin.json
+client/chrome-profiler-events.json
+client/speed-measure-plugin.json
 
 # IDEs and editors
-view/.idea
-view/.project
-view/.classpath
-view/.c9/
-view/*.launch
-view/.settings/
-view/*.sublime-workspace
+client/.idea
+client/.project
+client/.classpath
+client/.c9/
+client/*.launch
+client/.settings/
+client/*.sublime-workspace
 
 # IDE - VSCode
-view/.vscode/*
-view/!.vscode/settings.json
-view/!.vscode/tasks.json
-view/!.vscode/launch.json
-view/!.vscode/extensions.json
-view/.history/*
+client/.vscode/*
+client/!.vscode/settings.json
+client/!.vscode/tasks.json
+client/!.vscode/launch.json
+client/!.vscode/extensions.json
+client/.history/*
 
 # misc
-view/.sass-cache
-view/connect.lock
-view/coverage
-view/libpeerconnection.log
-view/npm-debug.log
-view/yarn-error.log
-view/testem.log
-view/typings
+client/.sass-cache
+client/connect.lock
+client/coverage
+client/libpeerconnection.log
+client/npm-debug.log
+client/yarn-error.log
+client/testem.log
+client/typings
 
 # System Files
-view/.DS_Store
-view/Thumbs.db
+client/.DS_Store
+client/Thumbs.db

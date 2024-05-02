@@ -36,7 +36,7 @@ app.use(express.urlencoded({
 app.use(cors())
 app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'view/dist/')));
+app.use(express.static(path.join(__dirname, './dist/')));
 
 
 app.use("/auth", authRoutes);
