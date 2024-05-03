@@ -25,6 +25,7 @@ client/.settings/
 client/*.sublime-workspace
 
 # IDE - VSCode
+.vscode
 client/.vscode/*
 client/!.vscode/settings.json
 client/!.vscode/tasks.json
@@ -33,6 +34,7 @@ client/!.vscode/extensions.json
 client/.history/*
 
 # misc
+client/package-lock.json
 client/.sass-cache
 client/connect.lock
 client/coverage

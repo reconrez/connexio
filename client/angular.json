@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "black-dashboard-angular": {
+    "connexio": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -29,9 +29,8 @@
             ],
             "styles": [
               "src/styles.scss",
-              "node_modules/ngx-toastr/toastr.css",
               "src/assets/scss/black-dashboard.scss",
-              "src/assets/scss/black-dashboard.scss"
+              "node_modules/ngx-toastr/toastr.css"
             ],
             "scripts": []
           },
@@ -79,14 +78,14 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "black-dashboard-angular:build"
+            "browserTarget": "connexio:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "black-dashboard-angular:build:production"
+              "browserTarget": "connexio:build:production"
             },
             "development": {
-              "browserTarget": "black-dashboard-angular:build:development"
+              "browserTarget": "connexio:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -94,7 +93,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "black-dashboard-angular:build"
+            "browserTarget": "connexio:build"
           }
         },
         "test": {
@@ -128,7 +127,7 @@
         }
       }
     },
-    "black-dashboard-angular-e2e": {
+    "connexio-e2e": {
       "root": "e2e/",
       "projectType": "application",
       "prefix": "",
@@ -137,11 +136,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "black-dashboard-angular:serve"
+            "devServerTarget": "connexio:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "black-dashboard-angular:serve:production"
+              "devServerTarget": "connexio:serve:production"
             }
           }
         },
