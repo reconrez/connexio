@@ -24,13 +24,15 @@
             <textarea formControlName="response" class="form-control discussion-textarea pb-5" name="" id="" placeholder="Type your Response here" rows="4"></textarea>
           </div>
           <div class="post-buttons row m-0 w-100 d-flex justify-content-end align-items-center">
-            <a class="attachment-button btn btn-outline-primary text-white">
+            <span class="px-2" *ngIf="selectedFile">{{ selectedFile.name }}</span>
+            <a (click)="attachFile()" class="attachment-button btn btn-outline-primary text-white">
               Attach<i class="fa fa-paperclip px-2"aria-hidden="true"></i>
             </a>
             <a (click)="createResponse()" class="response-button btn btn-outline-primary text-white">
               Post<i class="fa fa-arrow-circle-right px-2" aria-hidden="true"></i>
             </a>
-          </div>
+            <input type="file" id="fileInput" (change)="onFileSelected($event)" style="display: none;">
+          </div> 
         </form>
       </div>
 

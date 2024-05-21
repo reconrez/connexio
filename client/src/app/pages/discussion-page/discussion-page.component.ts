@@ -13,6 +13,7 @@ export class DiscussionPageComponent implements OnInit {
 
   currentUser: any
   responses : any = []
+  selectedFile: File;
 
   constructor(
     public discussionService : DiscussionService, 
@@ -40,6 +41,19 @@ export class DiscussionPageComponent implements OnInit {
         console.log(this.discussion);
       })
     });
+  }
+
+  attachFile() {
+    this.triggerFileSelection();
+  }
+
+  triggerFileSelection() {
+    document.getElementById('fileInput').click();
+  }
+
+  onFileSelected(event: any) {
+    this.selectedFile = event.target.files[0];
+    console.log(this.selectedFile);
   }
 
   deleteResponse(userId, id){

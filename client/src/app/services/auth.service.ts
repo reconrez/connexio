@@ -3,13 +3,15 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, map } from 'rxjs';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  baseUrl: string = "http://localhost:3000";
+  // baseUrl: string = "http://localhost:3000";
+  baseUrl: string = environment.API_BASE_URL;
   userId: string = ""
 
   getUserId(){
