@@ -1,5 +1,6 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { BehaviorSubject, Observable, catchError, map, throwError } from 'rxjs';
 
 @Injectable({
@@ -10,6 +11,8 @@ export class DiscussionService {
   private readonly baseUrl = 'http://localhost:3000/api';
 
   constructor(private http: HttpClient) {}
+
+  attachmentFile = new BehaviorSubject<File>(null);
   
   createDiscussion(discussion: any){
     console.log(discussion); 
@@ -52,7 +55,7 @@ export class DiscussionService {
 
   createResponse(response: any){
     // Update URL and body to include discussion ID
-    console.log(response);
+    console.log(`============${response}============`);
     return this.http.post<any>(`${this.baseUrl}/response/`, response)
     .subscribe((res: any) => {
       console.log(res);
@@ -60,6 +63,18 @@ export class DiscussionService {
         catchError(this.handleError)
       }
     })
+  }
+  attachmentAddition(attachment: FormGroup) {
+    const fileAttachment = new FormData();
+    fileAttachment.append('attachment', attachment.get('attachment').value);
+    console.log(attachment);
+    console.log(attachment.get('attachment').value);
+    console.log(fileAttachment);
+    console.log(fileAttachment.get('attachment'));
+    console.log(FormData);
+    return this.http.post(`${this.baseUrl}/upload`, fileAttachment, { headers: new HttpHeaders({ 'Content-Type':'multipart/form-data' })});
+    // return this.http.post(`${this.baseUrl}/upload`, {hello : "Hello"});
+    // return this.http.post(`${this.baseUrl}/upload`, fileAttachment, { headers: new HttpHeaders({ 'Content-Type': 'multipart/form-data', 'boundary':'no' })});
   }
 
   getAllResponses(discussionId: string){

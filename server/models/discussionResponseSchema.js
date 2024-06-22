@@ -1,4 +1,3 @@
-const { response } = require('express');
 const mongoose = require('mongoose');
 
 const DiscussionResponseSchema = new mongoose.Schema({
@@ -21,13 +20,14 @@ const DiscussionResponseSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  likes: [
-    {
-      user_id: {
-        type: String,
-      }
+  attachment: {
+    type: String
+  },
+  likes: [{
+    user_id: {
+      type: String,
     }
-  ],
+  }],
   created_at: {
     type: Date,
     default: Date.now

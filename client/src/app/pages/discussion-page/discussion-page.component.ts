@@ -27,7 +27,12 @@ export class DiscussionPageComponent implements OnInit {
     discussion_id: [null, Validators.required],
     user_id: [null, Validators.required],
     response: ['', [Validators.required, Validators.minLength(3)]],
+    attachment: [null, [Validators.pattern('.*\.(pdf)$')]],
   });
+
+  attachmentFile = this.fb.group({
+    attachment: [null, [Validators.pattern('.*\.(pdf)$')]],
+  })
 
   ngOnInit(): void {
     this.getResponses()
@@ -54,6 +59,24 @@ export class DiscussionPageComponent implements OnInit {
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];
     console.log(this.selectedFile);
+  }
+
+  sendToBackend(){
+    if(this.selectedFile){
+      console.log("file exists");
+      this.attachmentFile.patchValue({
+        attachment: this.selectedFile
+      })
+      console.log(this.attachmentFile.value);
+      this.discussionService.attachmentFile.next(this.attachmentFile.value);
+      console.log(this.discussionService.attachmentFile.value);
+      this.discussionService.attachmentAddition(this.attachmentFile).subscribe((res: any) => {
+        console.log(res)
+        console.log("response")
+      })
+    }else{
+      console.log("file doesn't exist");
+    }
   }
 
   deleteResponse(userId, id){
@@ -101,6 +124,11 @@ export class DiscussionPageComponent implements OnInit {
       user_id: this.currentUser._id,
       response: this.createResponseForm.value.response
     })
+    if(this.selectedFile){
+      this.createResponseForm.patchValue({
+        attachment: this.selectedFile
+      })
+    }
     console.log(this.createResponseForm.value);
     this.discussionService.createResponse(this.createResponseForm.value)
     // this.getResponses()

@@ -9,11 +9,13 @@ const helmet = require('helmet');
 const bodyParser = require('body-parser');
 require("dotenv").config();
 const { v4: uuidv4 } = require('uuid');
+const multer = require('multer');
 
 const postRoutes = require('./routes/postRoutes');
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require("./routes/userRoutes");
 const discussionRoutes = require("./routes/discussionRoutes");
+const attachmentRoutes = require("./routes/attachmentRoutes");
 const testRoutes = require("./routes/testRoutes");
 
 var app = express();
@@ -29,12 +31,12 @@ mongoose.connect(mongoURI).then(() =>
     ));
 app.use(helmet());
 app.use(logger('dev'));
+const upload = multer({ storage: multer.diskStorage({ destination: './uploads' }), limits: { fileSize: 1000000 } });
 app.use(express.json());
 app.use(express.urlencoded({
   extended: true,
 }));
 app.use(cors())
-app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, './dist/')));
 
@@ -43,6 +45,7 @@ app.use("/auth", authRoutes);
 app.use("/api", postRoutes);
 app.use("/api", discussionRoutes);
 app.use("/api", userRoutes);
+app.use("/api", attachmentRoutes);
 app.use("/testing", testRoutes);
 
 // catch 404 and forward to error handler
@@ -52,7 +55,8 @@ app.all(/.*/, (req, res) => {
 });
 
 console.log(uuidv4());
-
+const morgan = require('morgan');
+app.use(morgan('dev'));
 // error handler
 app.use(function (err, req, res, next) {
   // set locals, only providing error in development

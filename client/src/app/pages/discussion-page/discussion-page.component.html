@@ -28,10 +28,13 @@
             <a (click)="attachFile()" class="attachment-button btn btn-outline-primary text-white">
               Attach<i class="fa fa-paperclip px-2"aria-hidden="true"></i>
             </a>
+            <a (click)="sendToBackend()" class="attachment-button btn btn-outline-primary text-white">
+              Attachment Test<i class="fa fa-paperclip px-2"aria-hidden="true"></i>
+            </a>
             <a (click)="createResponse()" class="response-button btn btn-outline-primary text-white">
               Post<i class="fa fa-arrow-circle-right px-2" aria-hidden="true"></i>
             </a>
-            <input type="file" id="fileInput" (change)="onFileSelected($event)" style="display: none;">
+            <input type="file" id="fileInput" enctype="multipart/form-data" (change)="onFileSelected($event)" style="display: none;">
           </div> 
         </form>
       </div>
