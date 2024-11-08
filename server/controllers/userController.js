@@ -1,4 +1,4 @@
-const User = require("../models/userSchema");
+const { User, Follow } = require("../models/userSchema");
 
 const findUserById = async (req, res) => {
   console.log("works");
@@ -18,8 +18,6 @@ const findUserById = async (req, res) => {
         role: user.role,
         profilePicture: user.profilePicture,
         bio: user.bio,
-        followers: user.followers,
-        followings: user.followings,
         createdAt: user.createdAt,
       };
       console.log("success");
@@ -40,4 +38,28 @@ const deleteUser = async (req, res) => {
   // TODO: Implement delete user logic
 };
 
-module.exports = { findUserById }
+// Function to follow/unfollow a user
+const followUser = async (req, res) => {
+  try {
+    const { followerId, followingId } = req.body;
+
+    // Check if the follow relationship already exists
+    const existingFollow = await Follow.findOne({ followerId, followingId });
+    
+    if (existingFollow) {
+      // If already following, unfollow
+      await Follow.deleteOne({ followerId, followingId });
+      return res.status(200).json({ message: 'User unfollowed successfully' });
+    } else {
+      // If not following, create new follow
+      const newFollow = new Follow({ followerId, followingId });
+      await newFollow.save();
+      return res.status(201).json({ message: 'User followed successfully' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'An error occurred while following/unfollowing the user', error });
+  }
+};
+
+module.exports = { findUserById, followUser }

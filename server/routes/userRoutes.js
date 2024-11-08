@@ -1,5 +1,5 @@
 var express = require('express');
-const { findUserById } = require('../controllers/userController');
+const { findUserById, followUser, unfollowUser } = require('../controllers/userController');
 var router = express.Router();
 
 
@@ -30,6 +30,9 @@ router.get("/users", async (req, res) => {
       res.status(500).send("Server Error");
     }
   });
+
+  // Route to follow a user
+router.post('/follow', followUser);
 
 router.post("/user", findUserById)
 

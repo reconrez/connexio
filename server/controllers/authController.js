@@ -1,6 +1,6 @@
 // controllers/auth.js
 const Token = require("../models/tokenSchema");
-const User = require("../models/userSchema");
+const { Follow, User } = require("../models/userSchema");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { v4: uuidv4 } = require('uuid');
@@ -80,46 +80,64 @@ const register = async ({
   password,
   repassword
 }) => {
-  const emailRegExp = /\S+@\S+\.\S+/;
-
-  if (!username) {
-    return {
-      status: false,
-      result: "Username is required"
-    };
-  }
-
-  if (!emailRegExp.test(email)) {
-    return {
-      status: false,
-      result: "Invalid Email"
-    };
-  }
-
-  if (!password) {
-    return {
-      status: false,
-      result: "Password is required"
-    };
-  }
-
-  if (password !== repassword) {
-    return {
-      status: false,
-      result: "Password mismatch"
-    };
-  }
-
-  const hash = await bcrypt.hash(password, 10);
-  const uuid = uuidv4();
-
   try {
-    let user = new User({
+    username = username.toLowerCase();
+    email = email.toLowerCase();
+    
+    if (!username) {
+      return {
+        status: false,
+        result: "Username is required"
+      };
+    }
+
+    const existingUser = await User.findOne({ username });
+    if (existingUser) {
+      return {
+        status: false,
+        result: "Username already exists"
+      };
+    }
+
+    const emailRegExp = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    
+    if (!email || !emailRegExp.test(email)) {
+      return {
+        status: false,
+        result: "Invalid Email"
+      };
+    }
+
+    const existingEmail = await User.findOne({ email });
+    if (existingEmail) {
+      return {
+        status: false,
+        result: "Email already exists"
+      };
+    }
+
+    if (!password) {
+      return {
+        status: false,
+        result: "Password is required"
+      };
+    }
+
+    if (password !== repassword) {
+      return {
+        status: false,
+        result: "Password mismatch"
+      };
+    }
+
+    const hash = await bcrypt.hash(password, 10);
+    const uuid = uuidv4();
+
+    const user = new User({
       user_id: uuid,
-      username: username,
-      email: email,
+      username,
+      email,
       password: hash,
-      role: 'user',
     });
 
     await user.save();
@@ -134,11 +152,11 @@ const register = async ({
     return {
       status: true,
       result: {
-        username : user.username,
-        email : user.email,
+        username: user.username,
+        email: user.email,
         user_id: user.user_id,
-        profilePicture : "assets/img/default-avatar.png",
-        role : user.role,
+        profilePicture: user.profilePicture,
+        role: user.role,
         access_token,
         refresh_token
       }
@@ -146,10 +164,12 @@ const register = async ({
   } catch (err) {
     return {
       status: false,
-      result: "Username or Email already taken"
+      result: err.message
     };
   }
 }
+
+// ================================================= Login ==================================================
 
 const login = async ({
   username,
@@ -200,6 +220,8 @@ const login = async ({
     return { status: false, result: err.message };
   }
 }
+
+// =================================== Logout ============================================
 
 const logout = async ({ access_token }) => {
   try {    

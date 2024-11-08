@@ -34,19 +34,11 @@ const UserSchema = new mongoose.Schema({
     type: String,
     default: "assets/img/default-avatar.png",
   },
-  followers: {
-    type: Array,
-    default: [],
-  },
-  followings: {
-    type: Array,
-    default: [],
-  },
   role: {
     type: String,
-    enum: ["admin", "user"],
+    enum: ["admin", "individual", "business" ],
     required: true,
-    default: "user",
+    default: "individual",
   },
   gender: {
     type: String,
@@ -61,4 +53,26 @@ const UserSchema = new mongoose.Schema({
   timestamps: true
 });
 
-module.exports = mongoose.model("User", UserSchema);
+const FollowSchema = new mongoose.Schema(
+  {
+    followerId: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: 'User', // References the User model for the follower
+    },
+    followingId: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: 'User', // References the User model for the followed user
+    },
+  },
+  { timestamps: true }
+);
+
+// Optional: Add compound index to prevent duplicate follows
+FollowSchema.index({ followerId: 1, followingId: 1 }, { unique: true });
+
+const Follow = mongoose.model('Follow', FollowSchema);
+const User = mongoose.model("User", UserSchema);
+
+module.exports = { Follow, User };

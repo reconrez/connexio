@@ -4,6 +4,7 @@ const router = Router();
 
 router.post("/register", async (req, res) => {
   const { username, email, password, repassword } = req.body;
+  console.log(req.body)
   const response = await AuthController.register({ username, email, password, repassword });
 
   if (response.status) {
