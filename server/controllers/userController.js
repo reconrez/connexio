@@ -1,4 +1,5 @@
 const { User, Follow } = require("../models/userSchema");
+const { createNotification } = require('./notificationController');
 
 const findUserById = async (req, res) => {
   console.log("works");
@@ -54,7 +55,18 @@ const followUser = async (req, res) => {
       // If not following, create new follow
       const newFollow = new Follow({ followerId, followingId });
       await newFollow.save();
-      return res.status(201).json({ message: 'User followed successfully' });
+      
+      await createNotification({
+        receiverId: followingId,
+        senderId: followerId,
+        type: 'follow',
+        entityId: followerId,
+        message: 'You have a new follower!'
+      });
+            
+      return res.status(201).json({ message: 'User followed successfully & notification created.' });
+
+
     }
   } catch (error) {
     console.error(error);
