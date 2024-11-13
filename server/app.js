@@ -14,10 +14,8 @@ const multer = require('multer');
 const postRoutes = require('./routes/postRoutes');
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require("./routes/userRoutes");
-const discussionRoutes = require("./routes/discussionRoutes");
+const forumRoutes = require("./routes/forumRoutes");
 const attachmentRoutes = require("./routes/attachmentRoutes");
-const testRoutes = require("./routes/testRoutes");
-
 var app = express();
 const mongoURI = process.env.MONGO_URI;
 
@@ -43,10 +41,9 @@ app.use(express.static(path.join(__dirname, './dist/')));
 
 app.use("/auth", authRoutes);
 app.use("/api", postRoutes);
-app.use("/api", discussionRoutes);
+app.use("/api", forumRoutes);
 app.use("/api", userRoutes);
 app.use("/api", attachmentRoutes);
-app.use("/testing", testRoutes);
 
 // catch 404 and forward to error handler
 app.all(/.*/, (req, res) => {

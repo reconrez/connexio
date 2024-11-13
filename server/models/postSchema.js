@@ -1,59 +1,52 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const PostSchema = new mongoose.Schema({
-    post_id: {
-      type: String,
-      required: true,
-      unique: true,
-    },
-    user_id: {
-      type: String,
-      required: true,
-      unique: true,
-    },
-    username: {
-      type: String,
-      required: true,
-    },
-    profilePicture: {
-      type: String,
-      required: true,
-      default: "assets/img/default-avatar.png",
-    },
-    content: {
-      type: String,
-      required: true,
-    },
-    post_type: {
-      type: String,
-      enum: ['text', 'image', 'video', 'other'],
-      required: true,
-    },
-    created_at: {
-      type: Date,
-      default: Date.now,
-    },
-    updated_at: {
-      type: Date,
-    },
-    visibility: {
-      type: String,
-      enum: ['public', 'private', 'friends'],
-      default: 'public',
-    },
-    like: [
-      {
-        user_id: {
-          type: String,
-        },
-        username: {
-          type: String,
-        },
-        profilePicture: {
-          type: String,
-        }
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: 'User'
+  },
+  text: {
+    type: String,
+    maxlength: 1000,
+    default: ""
+  },
+  media: [
+    {
+      url: {
+        type: String
       },
-    ],
-  });
-  
-  module.exports = mongoose.model('Post', PostSchema);
+      type: {
+        type: String,
+        enum: ["image", "video"]
+      }
+    }
+  ],
+  visibility: {
+    type: String,
+    enum: ["public", "private"],
+    required: true
+  },
+  commentsCount: {
+    type: Number,
+    default: 0
+  },
+  likesCount: {
+    type: Number,
+    default: 0
+  }
+}, { timestamps: true });
+
+// Update visibility based on user profile
+PostSchema.pre('save', async function (next) {
+  const User = mongoose.model('User');
+  const user = await User.findById(this.userId);
+
+  if (user) {
+    this.visibility = user.visibility; // Set post visibility based on user profile
+  }
+  next();
+});
+
+const Post = mongoose.model('Post', PostSchema);
+module.exports = Post;

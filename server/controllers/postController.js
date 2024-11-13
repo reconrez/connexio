@@ -87,53 +87,80 @@ const createPost = async (req, res) => {
     }
   }
   
-  const createComment = async (req, res) => {
+  const addComment = async (req, res) => {
+    const { postId, userId, content } = req.body;
+  
     try {
-      const newComment = new Comment({
-        comment_id: uuidv4(),
-        ...req.body,
-      });
-      console.log(req.body);
-      console.log(`newComment:=================== ${newComment}`);
-      const savedComment = await newComment.save();
-      res.status(201).json(savedComment);
-    } catch (err) {
-      res.status(400).json({
-        error: err.message,
-      });
+      const comment = new Comment({ postId, userId, content });
+      await comment.save();
+  
+      await Post.findByIdAndUpdate(postId, { $inc: { commentsCount: 1 } });
+  
+      res.status(201).json({ message: 'Comment added successfully', data: comment });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Error adding comment', error });
     }
   };
   
-  const getAllComments = async (req, res) => {
-    try {
-      console.log(`=========================${req.body}==============================`);
-      const comments = await Comment.find(req.body);
-      res.json(comments);
-    } catch (err) {
-      res.status(500).json({
-        error: err.message,
-      });
-    }
-  };
-  
-  const deleteComment = async (req, res) => {
-    try {
-      const deletedComment = await Comment.findByIdAndDelete(req.params.id);
-      if (!deletedComment) {
-        res.status(404).json({
-          error: 'Comment not found',
-        });
-      } else {
-        res.json({
-          message: 'Comment deleted successfully',
-        });
+  const getComments = async (req, res) => {
+      const { postId } = req.params;
+    
+      try {
+        const comments = await Comment.find({ postId }).sort({ createdAt: 1 });
+        res.status(200).json(comments);
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error fetching comments', error });
       }
-    } catch (err) {
-      res.status(500).json({
-        error: err.message,
-      });
-    }
-  }
+    };
+
+  const deleteComments = async (req, res) => {
+      const { commentId } = req.params;
+    
+      try {
+        const comment = await Comment.findById(commentId);
+        if (!comment) {
+          return res.status(404).json({ message: 'Comment not found' });
+        }
+    
+        await Post.findByIdAndUpdate(comment.postId, { $inc: { commentsCount: -1 } });
+        await Comment.findByIdAndDelete(commentId);
+    
+        res.status(200).json({ message: 'Comment deleted successfully' });
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error deleting comment', error });
+      }
+    };
+
+    const addOrRemoveLike = async (req, res) => {
+      const { postId, userId } = req.body;
+    
+      try {
+        // Check if the user already liked the post
+        const existingLike = await Like.findOne({ postId, userId });
+    
+        if (existingLike) {
+          // If like exists, remove it (unlike the post)
+          await existingLike.deleteOne();
+          await Post.findByIdAndUpdate(postId, { $inc: { likesCount: -1 } });
+    
+          return res.status(200).json({ message: 'Post unliked successfully' });
+        } else {
+          // If like does not exist, add a new like
+          const like = new Like({ postId, userId });
+          await like.save();
+          await Post.findByIdAndUpdate(postId, { $inc: { likesCount: 1 } });
+    
+          return res.status(201).json({ message: 'Post liked successfully' });
+        }
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error updating like', error });
+      }
+    };
+  
 
 module.exports = { 
   createPost,
@@ -141,7 +168,8 @@ module.exports = {
   getPostById, 
   updatePost, 
   deletePost,
-  createComment,
-  getAllComments,
-  deleteComment  
+  addComment,
+  getComments,
+  deleteComments,
+  addOrRemoveLike
 };
